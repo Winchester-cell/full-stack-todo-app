@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'bebasBold';
+    src: url('/fonts/bebas/Bebas\ Neue\ Pro\ Bold.otf');
+}
+
+@font-face {
+    font-family: 'main';
+    src: url('/fonts/main/InterVariable.ff710c09.woff2');
+}
+
+
+:root {
+    --colorA: #e4e4e4;
+    --colorB: #f2f2f0;
+    --colorHover: #22c55e;
+    --colorText: #988d8d;
+    --colorTextB: #a9a9a9;
+}
+
+.dark {
+    --colorA: #1F2E35;
+    --colorB: #22343C;
+    --colorHover: #22c55e;
+    --colorText: #e2e2e2;
+    --colorTextB: #919191;
+}
+
+.hoverLink {
+    transition: all ease-in-out 500ms;
+}
+
+.hoverLink:hover {
+    color: var(--colorHover);
+}
+
+body {
+    font-family: 'main';
+    color: var(--colorText);
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input {
+    border: none;
+    outline: none;
+    background: none;
+}

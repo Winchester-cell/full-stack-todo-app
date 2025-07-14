@@ -1,0 +1,63 @@
+'use client'
+import loginUser from '@/api/auth/login';
+import PasswordInput from '@/components/Modules/Inputs/PasswordInput';
+import SubmitInput from '@/components/Modules/Inputs/SubmitInput';
+import TextInput from '@/components/Modules/Inputs/TextInput';
+import LogoComponent from '@/components/Modules/Logo/Logo'
+import { useToast } from '@/context/ToastContext';
+import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react'
+import { useForm } from 'react-hook-form';
+
+
+export default function LoginPage() {
+
+  const { register, handleSubmit } = useForm()
+  const { showToast } = useToast()
+  const router = useRouter()
+  const queryClient = useQueryClient();
+
+  const loginHandler = async (data) => {
+    const loginResult = await loginUser(data)
+    if (loginResult.isOk) {
+      showToast(loginResult.result, "success")
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
+    }
+    else {
+      showToast(loginResult.result, "error")
+    }
+
+  }
+
+  return (
+    <div className='w-full h-[100dvh] flex items-center justify-center'>
+
+      <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[450px] h-[600px] shadow-lg rounded-xl flex flex-col items-center gap-10 py-10'>
+
+        <LogoComponent size={1.5} />
+
+        <TextInput place={'Email ...'} registerKey={'email'} register={register} />
+
+        <PasswordInput place={'Password'} registerKey={'password'} register={register} />
+
+        <SubmitInput buttonText={'Login'} />
+
+        <ul className='text-sm w-[350px] pl-5 flex flex-col gap-3 mt-3 list-disc'>
+          <li className='hoverLink'>
+            <Link href={'#'}>Forgot my password</Link>
+          </li>
+          <li>
+            Not a member ? <Link href={'/register'} className='text-[var(--colorHover)]'>Register</Link>
+          </li>
+        </ul>
+
+      </form>
+
+    </div>
+  )
+}
