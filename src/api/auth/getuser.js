@@ -1,9 +1,9 @@
-import axios from "axios";
+import api from "../mainInstance/main";
 
 
 const getUser = async () => {
     try {
-        const res = await axios.get("/api/auth/getme");
+        const res = await api.get("/auth/getme");
         if (res.status === 200) {
             return res.data
         }

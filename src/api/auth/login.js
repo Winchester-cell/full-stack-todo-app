@@ -1,8 +1,8 @@
-import axios from "axios"
+import api from "../mainInstance/main"
 
 const loginUser = async (user) => {
   try {
-    const res = await axios.post('/api/auth/login', user)
+    const res = await api.post('/auth/login', user)
 
     if (res.status === 201) {
       return { result: 'Welcome', isOk: true }

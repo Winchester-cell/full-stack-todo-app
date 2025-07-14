@@ -1,8 +1,8 @@
-import axios from 'axios';
+import api from '../mainInstance/main';
 
 const logout = async () => {
     try {
-        const res = await axios.post('/api/auth/logout');
+        const res = await api.post('/auth/logout');
 
         if (res.status === 200) {
             console.log('✅ Logged out successfully');

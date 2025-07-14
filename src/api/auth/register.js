@@ -1,8 +1,8 @@
-import axios from "axios"
+import api from "../mainInstance/main"
 
 const registerUser = async (user) => {
 
-    const res = await axios.post('/api/auth/register', user)
+    const res = await api.post('/auth/register', user)
 
     if (res.status === 201) {
         return 'User Created successfully'

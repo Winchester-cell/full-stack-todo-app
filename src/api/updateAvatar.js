@@ -1,8 +1,8 @@
-const { default: axios } = require("axios");
+import api from "./mainInstance/main";
 
 const updateAvatar = async (url) => {
     try {
-        const res = await axios.patch('/api/avatar', { avatar: url })
+        const res = await api.patch('/avatar', { avatar: url })
         if (res.status === 200) {
             return { isOk: true, result: 'Avatar Updated successfully' }
         }
