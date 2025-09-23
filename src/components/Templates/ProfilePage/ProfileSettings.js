@@ -13,7 +13,7 @@ export default function ProfileSettings() {
   const { showCropper } = useUploadImageStore()
 
   return (
-    <div className='container px-10 mt-10 flex items-center justify-center h-[80dvh]'>
+    <div className='container px-10 mt-10 flex h-[80dvh]'>
 
       {
         showCropper &&
@@ -21,16 +21,16 @@ export default function ProfileSettings() {
       }
 
       {
-        user && 
-        <div className='w-[500px] bg-[var(--colorB)] p-10 rounded-xl shadow-lg'>
+        user &&
+        <div className='w-full md:w-fit h-fit bg-[var(--colorB)] p-6 md:p-10 rounded-xl shadow-lg'>
 
           <div className='w-full text-center mb-10'>
             <span className='bg-[var(--colorA)] rounded-full py-2 px-6'>Your Personal Info</span>
           </div>
 
-          <div className='flex items-center justify-between'>
+          <div className='flex flex-col gap-10 items-center md:flex-row  md:justify-between'>
 
-            <div className='flex items-center gap-5'>
+            <div className='flex md:flex-row flex-col items-center gap-5 '>
               {
                 user.avatar ? (
                   <img src={user.avatar} className='w-24 h-24 rounded-full' />
@@ -38,9 +38,9 @@ export default function ProfileSettings() {
                   <FaUserCircle className='w-24 h-24' />
                 )
               }
-              <div>
-                <div className='text-3xl'>{user.name}</div>
-                <div className='text-[var(--colorTextB)]'>{user.email}</div>
+              <div className='flex flex-col items-center md:items-start text-[12px] md:text-[16px]'>
+                <div className='md:text-3xl text-[14px]'>{user.name}</div>
+                <div className='text-[var(--colorTextB)] break-words text-center md:text-start w-[300px] md:w-full'>{user.email}</div>
                 <div className='mt-3'>
                   <UploadAvatar />
                 </div>

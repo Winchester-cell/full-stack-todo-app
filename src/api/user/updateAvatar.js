@@ -1,4 +1,4 @@
-import api from "./mainInstance/main";
+import api from "../mainInstance/main";
 
 const updateAvatar = async (url) => {
     try {

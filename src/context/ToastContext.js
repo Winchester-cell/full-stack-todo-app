@@ -18,11 +18,11 @@ export const ToastProvider = ({ children }) => {
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <div className="fixed top-4 left-4 z-50 space-y-2 max-w-xs w-full">
+            <div className="fixed top-4 left-4 z-[9999999] space-y-2 max-w-xs w-full">
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`px-4 py-2 rounded shadow text-white animate-fade-in-down ${toast.type === "error"
+                        className={`px-4 py-4 rounded shadow text-white animate-fade-in-down ${toast.type === "error"
                             ? "bg-red-500"
                             : toast.type === "warning"
                                 ? "bg-yellow-500"

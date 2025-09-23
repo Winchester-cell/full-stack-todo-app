@@ -19,6 +19,16 @@ const schema = mongoose.Schema({
         default: null,
     }
 
+}
+    , {
+        toJSON: { virtuals: true },  
+        toObject: { virtuals: true },
+    })
+
+schema.virtual('todos', {
+    ref: 'Todo',
+    localField: '_id',
+    foreignField: 'userID'
 })
 
 const userModel = mongoose.models.User || mongoose.model('User', schema)

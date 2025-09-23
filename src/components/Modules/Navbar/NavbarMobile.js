@@ -7,17 +7,16 @@ import useNavbarStore from '@/store/useNavbarStore'
 import Avatar from '../User/Avatar'
 import { useAuthStore } from '@/store/useAuthStore'
 import ThemeToggleButton from './ThemeToggleButton'
-import { LuLogIn, LuLogOut } from 'react-icons/lu'
 import LoginLogout from '../User/LoginLogout'
 
 export default function NavbarMobile({ isLoading }) {
 
     const { isOpen, toggleNavbar } = useNavbarStore()
-    const { isLoggedIn, user, setIsLoggedIn } = useAuthStore()
+    const { isLoggedIn, user } = useAuthStore()
 
     return (
         <>
-            <div className={`${isOpen ? `translate-x-0` : `-translate-x-full`} overflow-y-auto z-[999] shadow-lg flex flex-col md:hidden w-[250px] h-[100dvh] fixed top-0  bg-[var(--colorB)] transition-all ease-in duration-500 p-5`}>
+            <div className={`${isOpen ? `translate-x-0` : `-translate-x-full`} overflow-y-auto z-[999] shadow-lg flex flex-col lg:hidden w-[270px] h-[100dvh] fixed top-0  bg-[var(--colorB)] transition-all ease-in duration-500 p-5`}>
 
                 <div className='border-b-2 pb-10 mb-10 border-[var(--colorTextB)] mt-10'>
                     {
@@ -48,7 +47,7 @@ export default function NavbarMobile({ isLoading }) {
             </div>
 
             {/* overlay */}
-            <div className={`${isOpen ? `block` : `hidden`} fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-[#00000033] z-[990]`} onClick={toggleNavbar}>
+            <div className={`${isOpen ? `block` : `hidden`} lg:hidden fixed top-0 left-0 w-screen h-screen backdrop-blur-sm bg-[#00000033] z-[990]`} onClick={toggleNavbar}>
             </div>
 
         </>

@@ -1,8 +1,9 @@
 import '@/styles/globals.css'
-import { Providers } from './(providers)/providers';
+import { Providers } from './( providers )/providers';
 import Navbar from '@/components/Modules/Navbar/Navbar';
-import QueryProvider from './(providers)/QueryProvider';
+import QueryProvider from './( providers )/QueryProvider';
 import { ToastProvider } from '@/context/ToastContext';
+import SplashScreen from '@/components/SplashScreen/SplashScreen';
 
 export default function RootLayout({ children }) {
   return (
@@ -11,6 +12,7 @@ export default function RootLayout({ children }) {
         <QueryProvider>
           <Providers>
             <ToastProvider>
+              <SplashScreen />
               <Navbar />
               {children}
             </ToastProvider>

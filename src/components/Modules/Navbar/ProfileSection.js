@@ -1,4 +1,3 @@
-'use client'
 import React from 'react'
 import Avatar from '../User/Avatar'
 import ThemeToggleButton from './ThemeToggleButton';
@@ -11,7 +10,7 @@ export default function ProfileSection({ isLoading }) {
     const { isLoggedIn, user } = useAuthStore()
 
     return (
-        <div className='hidden md:flex items-center gap-7 text-2xl'>
+        <div className='hidden lg:flex items-center gap-7 text-2xl'>
 
             <ThemeToggleButton />
 

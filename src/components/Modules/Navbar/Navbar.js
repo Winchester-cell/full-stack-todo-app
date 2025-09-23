@@ -13,7 +13,7 @@ import useNavbarStore from '@/store/useNavbarStore';
 
 export default function Navbar() {
 
-  const { setIsLoggedIn, user, setUser } = useAuthStore()
+  const { setIsLoggedIn, setUser } = useAuthStore()
   const { toggleNavbar } = useNavbarStore()
   const path = usePathname()
 
@@ -25,7 +25,6 @@ export default function Navbar() {
   useEffect(() => {
     setIsLoggedIn(!!data)
     setUser(data)
-
   }, [data])
 
   if (path === '/login' || path === '/register') {
@@ -37,7 +36,7 @@ export default function Navbar() {
     <>
       <NavbarMobile isLoading={isLoading} />
 
-      <div className='px-5 py-3 w-full h-[85px] select-none'>
+      <div className='p-5 w-full h-[100px] select-none'>
 
         <div className='container w-full h-full bg-[var(--colorB)] shadow-lg rounded-full flex items-center justify-between px-10'>
 
@@ -57,7 +56,7 @@ export default function Navbar() {
 
           {/* profile and login */}
 
-          <IoMenu onClick={toggleNavbar} className='w-10 h-10 md:hidden' />
+          <IoMenu onClick={toggleNavbar} className='w-10 h-10 lg:hidden' />
 
           <ProfileSection isLoading={isLoading} />
 

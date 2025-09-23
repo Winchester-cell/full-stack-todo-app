@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import getCroppedImg from '@/utiles/others/getCroppedImg'
 import { MdZoomIn, MdZoomOut } from "react-icons/md";
 import { useUploadImageStore } from '@/store/useUploadImageStore';
-import updateAvatar from '@/api/updateAvatar';
+import updateAvatar from '@/api/user/updateAvatar';
 import { uploadImage } from '@/utiles/others/uploadcare';
 import { useToast } from '@/context/ToastContext';
 import { useQueryClient } from '@tanstack/react-query';
@@ -21,8 +21,11 @@ export default function CropImageModal() {
 
     useEffect(() => {
         if (selectedFile) {
-            const url = URL.createObjectURL(selectedFile)
-            setImageUrl(url)
+            const reader = new FileReader()
+            reader.onload = () => {
+                setImageUrl(reader.result) // Base64 میده
+            }
+            reader.readAsDataURL(selectedFile) // همیشه جواب میده حتی روی Android
         }
     }, [selectedFile])
 
@@ -71,7 +74,7 @@ export default function CropImageModal() {
                         }
                     />
 
-                    <div className="absolute flex items-center gap-2 bottom-4 right-4 bg-[var(--colorA)]  p-2 rounded-full">
+                    <div className="absolute hidden md:flex items-center gap-2 bottom-4 right-4 bg-[var(--colorA)]  p-2 rounded-full">
                         <MdZoomOut className='w-6 h-6' />
                         <input
                             type="range"

@@ -1,10 +1,12 @@
 'use client'
+import getUser from '@/api/auth/getuser';
 import loginUser from '@/api/auth/login';
 import PasswordInput from '@/components/Modules/Inputs/PasswordInput';
 import SubmitInput from '@/components/Modules/Inputs/SubmitInput';
 import TextInput from '@/components/Modules/Inputs/TextInput';
 import LogoComponent from '@/components/Modules/Logo/Logo'
 import { useToast } from '@/context/ToastContext';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -17,13 +19,15 @@ export default function LoginPage() {
   const { register, handleSubmit } = useForm()
   const { showToast } = useToast()
   const router = useRouter()
-  const queryClient = useQueryClient();
+  const { setUser, setIsLoggedIn } = useAuthStore()
 
   const loginHandler = async (data) => {
     const loginResult = await loginUser(data)
     if (loginResult.isOk) {
+      const user = await getUser()
+      setUser(user)
+      setIsLoggedIn(true)
       showToast(loginResult.result, "success")
-      queryClient.invalidateQueries({ queryKey: ['user'] });
       setTimeout(() => {
         router.push('/')
       }, 2000)

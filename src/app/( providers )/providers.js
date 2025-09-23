@@ -12,6 +12,7 @@ export function Providers({ children }) {
     }, []);
 
     if (!isMounted) return null;
+
     return (
         <ThemeProvider
             attribute="class"

@@ -18,7 +18,7 @@ export default function UploadAvatar() {
     return (
         <>
             <input className='hidden' id='upload_Avatar' type="file" accept="image/*" ref={fileInputRef} onChange={handleChange} />
-            <label htmlFor="upload_Avatar" className='bg-[var(--colorA)] px-5 py-2 rounded-full cursor-pointer'>
+            <label htmlFor="upload_Avatar" className='bg-[var(--colorA)] px-5 py-2 rounded-full cursor-pointer text-[12px]'>
                 Upload Avatar
             </label>
         </>

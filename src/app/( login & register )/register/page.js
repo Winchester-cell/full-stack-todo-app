@@ -1,23 +1,37 @@
 'use client'
 
+import getUser from '@/api/auth/getuser';
 import registerUser from '@/api/auth/register';
 import PasswordInput from '@/components/Modules/Inputs/PasswordInput';
 import SubmitInput from '@/components/Modules/Inputs/SubmitInput';
 import TextInput from '@/components/Modules/Inputs/TextInput';
 import LogoComponent from '@/components/Modules/Logo/Logo'
+import { useToast } from '@/context/ToastContext';
+import { useAuthStore } from '@/store/useAuthStore';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import React from 'react'
 import { useForm } from 'react-hook-form';
 
 
 export default function RegisterPage() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit } = useForm()
+    const { showToast } = useToast()
+    const { setUser , setIsLoggedIn } = useAuthStore()
 
     const submitHandler = async (data) => {
         const user = data
         const reqResult = await registerUser(user)
-        alert(reqResult)
+        if (reqResult.isOk) {
+            showToast(reqResult.result)
+            const userData = await getUser()
+            setUser(userData)
+            setIsLoggedIn(true)
+            redirect('/')
+        } else {
+            showToast(reqResult.result, 'error')
+        }
     }
 
     return (

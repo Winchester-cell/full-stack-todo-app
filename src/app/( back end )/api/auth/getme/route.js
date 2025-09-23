@@ -1,4 +1,5 @@
 import userModel from "@/models/user";
+import todoModel from "@/models/todo";
 import { verifyToken } from "@/utiles/auth/token";
 import dbConnect from "@/utiles/database/dbConnect";
 import { cookies } from "next/headers";
@@ -24,7 +25,7 @@ export async function GET(req) {
 
     await dbConnect()
 
-    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -_id -__v')
+    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v').populate('todos')
 
     if (!user) {
         return new Response(JSON.stringify({ error: "User not found" }), {
