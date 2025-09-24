@@ -41,7 +41,7 @@ export default function LoginPage() {
   return (
     <div className='w-full h-[100dvh] flex items-center justify-center'>
 
-      <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[450px] h-[600px] shadow-lg rounded-xl flex flex-col items-center gap-10 py-10'>
+      <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px] h-[600px] shadow-lg rounded-xl flex flex-col justify-center items-center gap-10 py-10'>
 
         <LogoComponent size={1.5} />
 
@@ -51,7 +51,7 @@ export default function LoginPage() {
 
         <SubmitInput buttonText={'Login'} />
 
-        <ul className='text-sm w-[350px] pl-5 flex flex-col gap-3 mt-3 list-disc'>
+        <ul className='text-sm w-full pl-16 flex flex-col gap-3 mt-3 list-disc'>
           <li className='hoverLink'>
             <Link href={'#'}>Forgot my password</Link>
           </li>

@@ -5,7 +5,7 @@ export default function SubmitInput({buttonText}) {
     return (
         <button
             type='submit'
-            className={`rounded-full bg-[var(--colorA)] w-[350px] py-5 px-10 flex items-center justify-center font-semibold hoverLink hover:border-[var(--colorHover)] border-2 border-[var(--colorText)]`}>
+            className={`rounded-full bg-[var(--colorA)] w-[220px] lg:w-[350px] py-3 px-10 flex items-center justify-center font-semibold hoverLink hover:border-[var(--colorHover)] border-2 border-[var(--colorText)]`}>
             {buttonText}
         </button>
     )

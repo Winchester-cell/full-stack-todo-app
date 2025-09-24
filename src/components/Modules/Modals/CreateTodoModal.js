@@ -37,7 +37,7 @@ export default function CreateTodoModal({ isOpen, setIsOpen }) {
 
             <div className={`w-full flex flex-col gap-10 items-center justify-center transition-all duration-500 ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
 
-                <div className='rounded-xl bg-[var(--colorB)] w-[500px] h-fit py-2'>
+                <div className='rounded-xl bg-[var(--colorB)] w-[300px] lg:w-[500px] h-fit py-2'>
                     <h2 className='w-full text-center mt-5'>Create new Todo</h2>
                     <form onSubmit={handleSubmit(submitHandler)} className='p-5'>
                         <div className='w-full flex justify-center'>
