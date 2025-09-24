@@ -19,7 +19,7 @@ export default function SplashScreen({ children }) {
 
     return (
         <div className='w-[100dvw] h-[100dvh] bg-[var(--colorA)] fixed top-0 left-0 z-[999999] flex items-center justify-center'>
-            <div className={`flex items-center gap-5 text-[60px] lg:text-[100px] font-[bebasBold]`}>
+            <div style={{fontFamily: "var(--font-bebasBold)"}} className={`flex items-center gap-5 text-[60px] lg:text-[100px]`}>
                 <SiSimplenote /> <span>NEXT TODO</span>
             </div>
         </div>

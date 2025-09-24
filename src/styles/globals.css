@@ -2,17 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-    font-family: 'bebasBold';
-    src: url('/fonts/bebas/Bebas\ Neue\ Pro\ Bold.otf');
-}
-
-@font-face {
-    font-family: 'main';
-    src: url('/fonts/main/InterVariable.ff710c09.woff2');
-}
-
-
 :root {
     --colorA: #e4e4e4;
     --colorB: #f2f2f0;
@@ -38,7 +27,7 @@
 }
 
 body {
-    font-family: 'main';
+    font-family: var(--font-main);
     color: var(--colorText);
 }
 
