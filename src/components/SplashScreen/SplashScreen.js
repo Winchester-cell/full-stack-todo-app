@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { SiSimplenote } from 'react-icons/si'
 
 
-export default function SplashScreen({ children }) {
+export default function SplashScreen() {
 
     const [visible, setVisible] = useState(true)
 

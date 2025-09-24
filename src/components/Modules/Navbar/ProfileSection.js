@@ -3,6 +3,7 @@ import Avatar from '../User/Avatar'
 import ThemeToggleButton from './ThemeToggleButton';
 import { useAuthStore } from '@/store/useAuthStore';
 import LoginLogout from '../User/LoginLogout';
+import EnClock from '../Clock/EnClock';
 
 
 export default function ProfileSection({ isLoading }) {
@@ -11,6 +12,8 @@ export default function ProfileSection({ isLoading }) {
 
     return (
         <div className='hidden lg:flex items-center gap-7 text-2xl'>
+
+            <EnClock />
 
             <ThemeToggleButton />
 
@@ -22,7 +25,7 @@ export default function ProfileSection({ isLoading }) {
                 isLoggedIn && !isLoading &&
                 <div className='flex items-center gap-2 cursor-pointer'>
                     <Avatar width={36} height={36} />
-                    <div className='text-[14px]'>{user.name}</div>
+                    <div className='text-[14px] line-clamp-1'>{user.name}</div>
                 </div>
             }
 

@@ -8,6 +8,8 @@ import Avatar from '../User/Avatar'
 import { useAuthStore } from '@/store/useAuthStore'
 import ThemeToggleButton from './ThemeToggleButton'
 import LoginLogout from '../User/LoginLogout'
+import EnClock from '../Clock/EnClock'
+import EnClockMobile from '../Clock/EnClockMobile'
 
 export default function NavbarMobile({ isLoading }) {
 
@@ -27,7 +29,7 @@ export default function NavbarMobile({ isLoading }) {
                         isLoggedIn && !isLoading &&
                         <div className='flex items-center gap-2 cursor-pointer'>
                             <Avatar width={72} height={72} />
-                            <div className='text-2xl'>{user.name}</div>
+                            <div className='text-2xl line-clamp-1'>{user.name}</div>
                         </div>
                     }
 
@@ -38,6 +40,10 @@ export default function NavbarMobile({ isLoading }) {
                         return <NavbarLinks key={index} {...item} />
                     })}
                 </ul>
+
+                <div className='border-b-2 pb-10 mb-10 border-[var(--colorTextB)]'>
+                    <EnClockMobile />
+                </div>
 
                 <div className='flex gap-5 pl-5'>
                     <LoginLogout width={30} height={30} />
