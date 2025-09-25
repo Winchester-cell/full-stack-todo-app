@@ -2,7 +2,6 @@
 import { useAuthStore } from '@/store/useAuthStore'
 import React from 'react'
 import { FaUserCircle } from 'react-icons/fa'
-import { MdEdit } from "react-icons/md";
 import UploadAvatar from './UploadAvatar';
 import CropImageModal from '@/components/Modules/Modals/CropModal';
 import { useUploadImageStore } from '@/store/useUploadImageStore';
@@ -13,7 +12,7 @@ export default function ProfileSettings() {
   const { showCropper } = useUploadImageStore()
 
   return (
-    <div className='container px-10 mt-10 flex items-center justify-center h-[calc(100dvh-100px)]'>
+    <div className='container px-10 flex items-center justify-center h-[calc(100dvh-100px)]'>
 
       {
         showCropper &&
