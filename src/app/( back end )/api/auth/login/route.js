@@ -1,6 +1,6 @@
 import userModel from "@/models/user";
 import { verifyPassword } from "@/utiles/auth/password";
-import { generateToken } from "@/utiles/auth/token";
+import { generateRefreshToken, generateToken } from "@/utiles/auth/token";
 import { serialize } from "cookie";
 
 const { default: dbConnect } = require("@/utiles/database/dbConnect");
@@ -38,21 +38,32 @@ export async function POST(req) {
     }
 
     const token = generateToken({ email })
+    const refreshToken = generateRefreshToken({ email })
 
+    user.refreshToken = refreshToken
+    user.save()
 
     const serializedCookie = serialize("token", token, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 60 * 10,
+        secure: true,
+        sameSite: "lax",
+    });
+
+    const serializedRefreshTokenCookie = serialize("refreshToken", refreshToken, {
         httpOnly: true,
         path: "/",
         maxAge: 60 * 60 * 24,
         secure: true,
         sameSite: "lax",
-    });
+    })
 
     return new Response(JSON.stringify({ message: 'Welcome' }), {
         status: 201,
         headers: {
             "Content-Type": "application/json",
-            "Set-Cookie": serializedCookie
+            "Set-Cookie": [serializedCookie, serializedRefreshTokenCookie]
         }
     })
 

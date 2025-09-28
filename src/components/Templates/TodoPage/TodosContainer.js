@@ -11,12 +11,15 @@ export default function TodosContainer({ id }) {
     })
 
     return (
-        <div className='flex flex-col gap-5 p-5 container'>
-            {
-                data?.tasks?.map((task, index) => {
-                    return <TodoCard key={task._id} index={index} {...task} />
-                })
-            }
-        </div>
+        <>
+            <h2 className='container px-10 mt-5'>{data?.title}</h2>
+            <div className='flex flex-col gap-5 p-5 container'>
+                {
+                    data?.tasks?.map((task, index) => {
+                        return <TodoCard key={task._id} index={index} {...task} />
+                    })
+                }
+            </div>
+        </>
     )
 }

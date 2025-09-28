@@ -5,11 +5,28 @@ import { FaUserCircle } from 'react-icons/fa'
 import UploadAvatar from './UploadAvatar';
 import CropImageModal from '@/components/Modules/Modals/CropModal';
 import { useUploadImageStore } from '@/store/useUploadImageStore';
+import updateAvatar from '@/api/user/updateAvatar';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function ProfileSettings() {
 
   const { user } = useAuthStore()
   const { showCropper } = useUploadImageStore()
+  const queryClient = useQueryClient();
+
+  const removeAvatarHandler = async () => {
+    const res = await updateAvatar('')
+    if (res.isOk) {
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      setTimeout(() => {
+        showToast(res.result, 'success')
+      }, 2000);
+    } else {
+      setInterval(() => {
+        showToast(res.result, 'error')
+      }, 2000);
+    }
+  }
 
   return (
     <div className='container px-10 flex items-center justify-center h-[calc(100dvh-100px)]'>
@@ -18,6 +35,8 @@ export default function ProfileSettings() {
         showCropper &&
         <CropImageModal />
       }
+
+      
 
       {
         user &&
@@ -44,7 +63,7 @@ export default function ProfileSettings() {
                   <UploadAvatar />
                 </div>
                 <button className='bg-[var(--colorA)] mt-3 px-5 py-2 rounded-full cursor-pointer text-[12px] block'>Edit Name</button>
-                <button className='bg-[var(--colorA)] mt-3 px-5 py-2 rounded-full cursor-pointer text-[12px] block'>Remove Avatar</button>
+                <button onClick={removeAvatarHandler} className='bg-[var(--colorA)] mt-3 px-5 py-2 rounded-full cursor-pointer text-[12px] block'>Remove Avatar</button>
               </div>
             </div>
 

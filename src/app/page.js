@@ -1,7 +1,8 @@
 'use client'
 import ProjectListContainer from "@/components/Templates/HomePage/ProjectListContainer";
-import TitleAndControl from "@/components/Templates/HomePage/TitleAndControl";
+import Controls from "@/components/Templates/HomePage/Control";
 import { useAuthStore } from "@/store/useAuthStore";
+import Link from "next/link";
 
 export default function Home() {
 
@@ -9,18 +10,22 @@ export default function Home() {
 
   if (isLoggedIn) {
     return (
-      <div>
-        <TitleAndControl />
+      <div className="h-[calc(100dvh-100px)] flex flex-col">
+        <Controls />
         <ProjectListContainer />
       </div>
     )
   }
 
   return (
-    <div className="w-full h-[calc(100dvh-100px)] flex items-center justify-center px-10">
+    <div className="w-full h-[calc(100dvh-100px)] flex items-center justify-center">
 
-      <div className="w-[700px] h-[300px] bg-[var(--colorB)] text-2xl shadow-lg rounded-xl flex items-center justify-center p-5 text-center">
-        To use website features , you have to login first
+      <div className='container w-full h-full p-5'>
+        <div className='border-2 border-dashed rounded-2xl text-[var(--colorTextB)] border-[var(--colorTextB)] h-full flex items-center justify-center'>
+          <div className='flex flex-col items-center text-xl'>
+            <div>You Have To <Link className="text-[var(--colorHover)]" href={'/login'}>Login</Link> First :)</div>
+          </div>
+        </div>
       </div>
 
     </div>

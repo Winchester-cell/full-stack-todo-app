@@ -1,13 +1,13 @@
 import { sign, verify } from "jsonwebtoken"
 
-const generateToken = (data) => {
+export const generateToken = (data) => {
     const token = sign({ ...data }, process.env.PrivateKey, {
-        expiresIn: '24h'
+        expiresIn: '10m'
     })
     return token
 }
 
-const verifyToken = (token) => {
+export const verifyToken = (token) => {
     try {
         const verifyResult = verify(token, process.env.PrivateKey)
         return verifyResult
@@ -17,4 +17,22 @@ const verifyToken = (token) => {
     }
 }
 
-export { generateToken, verifyToken }
+export const generateRefreshToken = (data) => {
+    const token = sign({ ...data }, process.env.RefreshTokenPrivateKey, {
+        expiresIn: '7d'
+    })
+    return token
+}
+
+
+export const verifyRefreshToken = (token) => {
+    try {
+        const verifyResult = verify(token, process.env.RefreshTokenPrivateKey)
+        return verifyResult
+    } catch (err) {
+        console.log('token Error =>', err)
+        return null
+    }
+}
+
+

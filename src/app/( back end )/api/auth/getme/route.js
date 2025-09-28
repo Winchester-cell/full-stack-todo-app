@@ -1,13 +1,18 @@
 import userModel from "@/models/user";
 import todoModel from "@/models/todo";
-import { verifyToken } from "@/utiles/auth/token";
+import { generateToken, verifyRefreshToken, verifyToken } from "@/utiles/auth/token";
 import dbConnect from "@/utiles/database/dbConnect";
 import { cookies } from "next/headers";
+import { serialize } from "cookie";
+
 
 export async function GET(req) {
 
+    await dbConnect()
+
     const cookieStore = await cookies()
     const token = cookieStore.get('token')?.value
+    const refreshToken = cookieStore.get('refreshToken')?.value
 
     if (!token) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
@@ -18,12 +23,46 @@ export async function GET(req) {
     const tokenPayload = verifyToken(token)
 
     if (!tokenPayload) {
-        return new Response(JSON.stringify({ error: "Invalid token" }), {
-            status: 403,
+
+        if (!refreshToken) {
+            return new Response(JSON.stringify({ error: "Unauthorized" }), {
+                status: 401,
+            });
+        }
+
+        const refreshTokenPayload = verifyRefreshToken(refreshToken)
+
+        if (!refreshTokenPayload) {
+            return new Response(JSON.stringify({ error: "Invalid token" }), {
+                status: 403,
+            });
+        }
+
+        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v').populate('todos')
+
+        const newToken = generateToken({ email: user.email })
+
+        const serializedCookie = serialize("token", newToken, {
+            httpOnly: true,
+            path: "/",
+            maxAge: 60 * 10,
+            secure: true,
+            sameSite: "lax",
         });
+
+
+        return new Response(JSON.stringify(user), {
+            status: 200,
+            headers: {
+                "Content-Type": "application/json",
+                "Set-Cookie": serializedCookie
+
+            },
+        })
+
     }
 
-    await dbConnect()
+
 
     const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v').populate('todos')
 

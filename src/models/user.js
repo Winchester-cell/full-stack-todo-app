@@ -17,6 +17,11 @@ const schema = mongoose.Schema({
         type: String,
         required: false,
         default: null,
+    },
+    refreshToken: {
+        type: String,
+        required: false,
+        default: null,
     }
 
 }
