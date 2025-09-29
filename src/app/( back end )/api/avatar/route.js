@@ -1,5 +1,6 @@
 import userModel from "@/models/user";
 import { verifyToken } from "@/utiles/auth/token";
+import { checkUser } from "@/utiles/checkUser";
 import dbConnect from "@/utiles/database/dbConnect";
 import { cookies } from "next/headers";
 
@@ -9,24 +10,26 @@ export async function PATCH(req) {
 
     const {avatar} = await req.json()
 
-    const cookieStore = await cookies()
-    const token = cookieStore.get('token')?.value
+    const user = await checkUser()
 
-    if (!token) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-            status: 401,
-        })
-    }
+    // const cookieStore = await cookies()
+    // const token = cookieStore.get('token')?.value
 
-    const tokenPayload = verifyToken(token)
+    // if (!token) {
+    //     return new Response(JSON.stringify({ error: "Unauthorized" }), {
+    //         status: 401,
+    //     })
+    // }
 
-    if (!tokenPayload) {
-        return new Response(JSON.stringify({ error: "Invalid token" }), {
-            status: 403,
-        })
-    }
+    // const tokenPayload = verifyToken(token)
 
-    const user = await userModel.findOne({ email: tokenPayload.email })
+    // if (!tokenPayload) {
+    //     return new Response(JSON.stringify({ error: "Invalid token" }), {
+    //         status: 403,
+    //     })
+    // }
+
+    // const user = await userModel.findOne({ email: tokenPayload.email })
 
     if (!user) {
         return new Response(JSON.stringify({ text: 'user not found' }), {
