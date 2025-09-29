@@ -1,18 +1,19 @@
-'use client'
-import TaskInput from '@/components/Templates/TodoPage/TaskInput'
-import TodosContainer from '@/components/Templates/TodoPage/TodosContainer'
-import { useQuery } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
+import TodoMainTemplate from '@/components/Templates/TodoPage/TodoMainTemplate'
+import checkUserOnServerSide from '@/utiles/checkUserOnServer'
+import { redirect } from 'next/navigation'
 import React from 'react'
 
-export default function TodoPage() {
+export default async function TodoPage() {
 
-    const params = useParams()
+    const isLoggedIn = await checkUserOnServerSide()
+    if (!isLoggedIn) {
+        redirect('/login')
+    }
 
     return (
         <>
-            <TaskInput {...params} />
-            <TodosContainer {...params} />
+            <TodoMainTemplate />
         </>
     )
+
 }

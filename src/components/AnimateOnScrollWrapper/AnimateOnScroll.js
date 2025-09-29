@@ -1,3 +1,4 @@
+'use client'
 import { useInView } from "@/Hooks/Animate/useInView";
 import React from "react";
 

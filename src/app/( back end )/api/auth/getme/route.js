@@ -14,13 +14,7 @@ export async function GET(req) {
     const token = cookieStore.get('token')?.value
     const refreshToken = cookieStore.get('refreshToken')?.value
 
-    if (!token) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), {
-            status: 401,
-        });
-    }
-
-    const tokenPayload = verifyToken(token)
+    const tokenPayload = token ? verifyToken(token) : null
 
     if (!tokenPayload) {
 
@@ -62,8 +56,6 @@ export async function GET(req) {
 
     }
 
-
-
     const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v').populate('todos')
 
     if (!user) {
@@ -71,7 +63,6 @@ export async function GET(req) {
             status: 404,
         });
     }
-
 
     return new Response(JSON.stringify(user), {
         status: 200,
