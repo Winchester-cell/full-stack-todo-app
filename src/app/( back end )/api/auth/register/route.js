@@ -1,6 +1,6 @@
 import userModel from "@/models/user"
 import { hashPassword } from "@/utiles/auth/password"
-import { generateToken } from "@/utiles/auth/token"
+import { generateRefreshToken, generateToken } from "@/utiles/auth/token"
 import dbConnect from "@/utiles/database/dbConnect"
 import { serialize } from "cookie"
 
@@ -36,7 +36,13 @@ export async function POST(req) {
 
     await userModel.create({ name, email, password: hashedPassword })
 
+    const user = await userModel.findOne({ email })
+
     const token = generateToken({ email })
+    const refreshToken = generateRefreshToken({ email })
+
+    user.refreshToken = refreshToken
+    user.save()
 
     const serializedCookie = serialize("token", token, {
         httpOnly: true,
@@ -46,11 +52,20 @@ export async function POST(req) {
         sameSite: "lax",
     });
 
+
+    const serializedRefreshTokenCookie = serialize("refreshToken", refreshToken, {
+        httpOnly: true,
+        path: "/",
+        maxAge: 60 * 60 * 24,
+        secure: true,
+        sameSite: "lax",
+    })
+
     return new Response(JSON.stringify({ message: 'user created' }), {
         status: 201,
         headers: {
             "Content-Type": "application/json",
-            "Set-Cookie": serializedCookie,
+            "Set-Cookie": [serializedCookie, serializedRefreshTokenCookie]
         }
     })
 

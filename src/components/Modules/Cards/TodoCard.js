@@ -6,20 +6,22 @@ import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
 import useDeleteTask from '@/Hooks/useDeleteTask';
 import useUpdateTask from '@/Hooks/useUpdateTask';
-import EditTaskModal from '../Modals/EditTaskModal';
 
+export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen }) {
 
-export default function TodoCard({ index, title, isDone, _id }) {
-
-    const [isOpen, setIsOpen] = useState(false)
     const { id: projectID } = useParams()
     const { theme } = useTheme()
     const deleteMutation = useDeleteTask()
     const updateTaskMutation = useUpdateTask()
 
+    const editHandler = () => {
+        setTaskID(_id)
+        setProjectID(projectID)
+        setIsOpen(true)
+    }
+
     return (
         <>
-            <EditTaskModal todoID={projectID} taskID={_id} isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className='flex bg-[var(--colorB)] w-full h-fit py-5 rounded-xl shadow-lg px-5 lg:px-10 justify-between'>
                 <div className='flex items-center gap-5 lg:gap-10 text-[14px] lg:text-[16px]'>
                     <div>{index + 1}</div>
@@ -41,7 +43,7 @@ export default function TodoCard({ index, title, isDone, _id }) {
                                 (<IoCheckmark onClick={() => updateTaskMutation.mutate({ update: { type: 'status', body: '' }, todoID: projectID, taskID: _id })} className='lg:w-7 w-5  lg:h-7 h-5 cursor-pointer hoverLink' />)
                         }
 
-                        <MdModeEdit onClick={() => setIsOpen(true)} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
+                        <MdModeEdit onClick={editHandler} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
                         <MdDelete onClick={() => deleteMutation.mutate({ projectID, taskID: _id })} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
                     </div>
                     {

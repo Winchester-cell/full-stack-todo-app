@@ -1,7 +1,8 @@
 import { getTodo } from '@/api/todos/getTodo'
 import TodoCard from '@/components/Modules/Cards/TodoCard'
+import EditTaskModal from '@/components/Modules/Modals/EditTaskModal'
 import { useQuery } from '@tanstack/react-query'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function TodosContainer({ id }) {
 
@@ -10,13 +11,18 @@ export default function TodosContainer({ id }) {
         queryFn: () => getTodo(id),
     })
 
+    const [taskID, setTaskID] = useState('')
+    const [projectID, setProjectID] = useState('')
+    const [isOpen, setIsOpen] = useState(false)
+
     return (
         <>
-            <h2 className='container px-10 mt-5'>{data?.title}</h2>
+            <EditTaskModal todoID={projectID} taskID={taskID} isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className='flex flex-col gap-5 p-5 container'>
+                <h2 className='container px-10 bg-[var(--colorB)] py-3 shadow-lg rounded-xl'>{data?.title}</h2>
                 {
                     data?.tasks?.map((task, index) => {
-                        return <TodoCard key={task._id} index={index} {...task} />
+                        return <TodoCard key={task._id} setTaskID={setTaskID} setIsOpen={setIsOpen} setProjectID={setProjectID} index={index} {...task} />
                     })
                 }
             </div>

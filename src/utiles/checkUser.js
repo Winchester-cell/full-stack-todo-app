@@ -1,33 +1,37 @@
 import userModel from "@/models/user";
-import todoModel from "@/models/todo";
-import { verifyToken } from "@/utiles/auth/token";
+import { verifyRefreshToken, verifyToken } from "@/utiles/auth/token";
 import dbConnect from "./database/dbConnect";
 import { cookies } from "next/headers";
 
 export async function checkUser() {
 
-    const cookieStore = await cookies()
-    const token = cookieStore.get('token')?.value
+    await dbConnect();
 
-    if (!token) {
-        return false
+    const cookieStore = await cookies();
+    const token = cookieStore.get("token")?.value;
+    const refreshToken = cookieStore.get("refreshToken")?.value;
+
+    if (!token && !refreshToken) return false;
+
+    const tokenPayload = token ? verifyToken(token) : null;
+    if (tokenPayload) {
+        const user = await userModel.findOne(
+            { email: tokenPayload.email },
+            "-password -__v"
+        );
+        return user || false;
     }
 
-    const tokenPayload = verifyToken(token)
+    if (refreshToken) {
+        const refreshPayload = verifyRefreshToken(refreshToken);
+        if (!refreshPayload) return false;
 
-    if (!tokenPayload) {
-        return false
+        const user = await userModel.findOne(
+            { refreshToken },
+            "-password -__v"
+        );
+        return user || false;
     }
 
-    await dbConnect()
-
-    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v').populate('todos')
-
-    if (!user) {
-        return false
-    }
-
-
-    return user 
-
+    return false;
 }

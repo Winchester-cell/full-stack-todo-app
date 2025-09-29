@@ -2,7 +2,7 @@ import { sign, verify } from "jsonwebtoken"
 
 export const generateToken = (data) => {
     const token = sign({ ...data }, process.env.PrivateKey, {
-        expiresIn: '10m'
+        expiresIn: '5s'
     })
     return token
 }

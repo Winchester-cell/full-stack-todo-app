@@ -41,7 +41,7 @@ export default function LoginPage() {
   return (
     <div className='w-full h-[100dvh] flex items-center justify-center'>
 
-      <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px] h-[600px] shadow-lg rounded-xl flex flex-col justify-center items-center gap-10 py-10'>
+      <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px] lg:h-[600px] shadow-lg rounded-xl flex flex-col justify-center items-center gap-10 py-10'>
 
         <LogoComponent size={1.5} />
 
