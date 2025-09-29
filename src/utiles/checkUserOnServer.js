@@ -1,33 +1,7 @@
-// import { cookies } from "next/headers";
-// import { verifyToken } from "./auth/token";
-
-// const checkuserOnServerSide = async () => {
-//     const cookieStore = await cookies()
-//     const token = cookieStore.get('token')?.value
-
-//     if (!token) {
-//         return false
-//     }
-
-//     const tokenPayload = verifyToken(token)
-
-//     if (!tokenPayload) {
-//         return false
-//     }
-
-//     return true
-
-// }
-
-// export default checkuserOnServerSide
-
-
-
 import { cookies } from "next/headers";
 import { verifyToken, verifyRefreshToken, generateToken } from "./auth/token";
 import userModel from "@/models/user";
 import dbConnect from "./database/dbConnect";
-import { serialize } from "cookie";
 
 const checkUserOnServerSide = async () => {
     await dbConnect();

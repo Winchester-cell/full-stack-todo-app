@@ -1,4 +1,5 @@
 import { getTodo } from '@/api/todos/getTodo'
+import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll'
 import TodoCard from '@/components/Modules/Cards/TodoCard'
 import EditTaskModal from '@/components/Modules/Modals/EditTaskModal'
 import { useQuery } from '@tanstack/react-query'
@@ -22,7 +23,11 @@ export default function TodosContainer({ id }) {
                 <h2 className='container px-10 bg-[var(--colorB)] py-3 shadow-lg rounded-xl'>{data?.title}</h2>
                 {
                     data?.tasks?.map((task, index) => {
-                        return <TodoCard key={task._id} setTaskID={setTaskID} setIsOpen={setIsOpen} setProjectID={setProjectID} index={index} {...task} />
+                        return (
+                            <AnimateOnScroll key={task._id} delay={100 * index}>
+                                <TodoCard setTaskID={setTaskID} setIsOpen={setIsOpen} setProjectID={setProjectID} index={index} {...task} />
+                            </AnimateOnScroll>
+                        )
                     })
                 }
             </div>
