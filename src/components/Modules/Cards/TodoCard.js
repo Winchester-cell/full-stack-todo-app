@@ -5,16 +5,15 @@ import { useParams } from 'next/navigation';
 import useDeleteTask from '@/Hooks/useDeleteTask';
 import ToggleTodoStatus from '../ToggleTodoStatus/ToggleTodoStatus';
 
-export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen }) {
+export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen , setIsConfirmOpen }) {
 
     const { id: projectID } = useParams()
     const { theme } = useTheme()
-    const deleteMutation = useDeleteTask()
-  
-    const editHandler = () => {
+
+    const clickHandler = (targetModal) => {
         setTaskID(_id)
         setProjectID(projectID)
-        setIsOpen(true)
+        targetModal === 'edit' ? setIsOpen(true) : setIsConfirmOpen(true)
     }
 
     return (
@@ -30,8 +29,9 @@ export default function TodoCard({ index, title, isDone, _id, setTaskID, setProj
                 <div className='flex items-center justify-center flex-col gap-3'>
                     <div className='flex items-center gap-5 lg:gap-10'>
                         <ToggleTodoStatus isDone={isDone} _id={_id} />
-                        <MdModeEdit onClick={editHandler} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
-                        <MdDelete onClick={() => deleteMutation.mutate({ projectID, taskID: _id })} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
+                        <MdModeEdit onClick={()=>clickHandler('edit')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
+                        {/* <MdDelete onClick={() => deleteMutation.mutate({ projectID, taskID: _id })} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' /> */}
+                        <MdDelete onClick={() => clickHandler('delete')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
                     </div>
                     {
                         isDone &&
