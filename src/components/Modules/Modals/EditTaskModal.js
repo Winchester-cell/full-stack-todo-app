@@ -1,20 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { IoClose } from 'react-icons/io5'
 import TextInput from '../Inputs/TextInput'
 import useUpdateTask from '@/Hooks/useUpdateTask'
 import { useToast } from '@/context/ToastContext'
+import LoaderDot from '../Loaders/LoaderDot'
 
 export default function EditTaskModal({ isOpen, setIsOpen, todoID, taskID }) {
 
     const { register, handleSubmit, reset } = useForm()
     const { showToast } = useToast()
     const updateTaskMutation = useUpdateTask()
+
+    const [isLoading, setIsLoading] = useState(false)
+
     const submitHandler = async (data) => {
-        updateTaskMutation.mutate({ update: { type: 'rename', body: data.title }, todoID, taskID })
-        showToast('Task updated successfully')
-        setIsOpen(false)
-        reset()
+
+        if (isLoading) {
+            return;
+        }
+        try {
+            setIsLoading(true)
+            const res = await updateTaskMutation.mutateAsync({ update: { type: 'rename', body: data.title }, todoID, taskID })
+            if (res.isOk) {
+                showToast(res.result)
+                setIsOpen(false)
+                reset()
+            } else {
+                showToast(res.result, 'error')
+            }
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
+
     }
 
     return (
@@ -30,8 +50,8 @@ export default function EditTaskModal({ isOpen, setIsOpen, todoID, taskID }) {
                         <div className='w-full flex justify-center'>
                             <TextInput register={register} registerKey={'title'} place={'Write new title ...'} />
                         </div>
-                        <div className='w-full text-center mt-5'>
-                            <button type='submit' className='bg-[var(--colorA)] px-5 py-2 rounded-full border-2 border-[var(--colTextA)]'>Done</button>
+                        <div className='w-full flex justify-center text-center mt-5'>
+                            <button disabled={isLoading} type='submit' className='bg-[var(--colorA)] w-[150px] h-10 flex items-center justify-center rounded-full border-2 border-[var(--colTextA)]'>{isLoading ? <LoaderDot size={35} color='var(--colorText)' /> : `Done`}</button>
                         </div>
                     </form>
                 </div>

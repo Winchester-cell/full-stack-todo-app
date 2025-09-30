@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import TextInput from '../Inputs/TextInput';
 import { useForm } from 'react-hook-form';
@@ -6,28 +6,38 @@ import { useAuthStore } from '@/store/useAuthStore';
 import postTodo from '@/api/todos/postTodo';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/context/ToastContext';
+import useAddProject from '@/Hooks/useAddProject';
+import LoaderDot from '../Loaders/LoaderDot';
 
 export default function CreateTodoModal({ isOpen, setIsOpen }) {
 
     const { register, handleSubmit, reset } = useForm()
     const { user } = useAuthStore()
     const { showToast } = useToast()
-    const queryClient = useQueryClient();
+    const addProjectMutation = useAddProject()
+    const [isLoading, setIsLoading] = useState(false)
 
-    const mutation = useMutation({
-        mutationFn: (todo) => postTodo(todo),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries(['user']);
-            showToast('Project created successfully', "success")
-            setIsOpen(false);
-            reset();
-        },
-    });
-
-    const submitHandler = (data) => {
-        const title = data.title;
-        const todo = { userID: user._id, title, tasks: [] };
-        mutation.mutate(todo);
+    const submitHandler = async (data) => {
+        if (isLoading) {
+            return;
+        }
+        try {
+            setIsLoading(true)
+            const title = data.title;
+            const todo = { userID: user._id, title, tasks: [] };
+            const res = await addProjectMutation.mutateAsync(todo)
+            if (res.isOk) {
+                showToast(res.result)
+                reset()
+                setIsOpen(false)
+            } else {
+                showToast(res.result, "error")
+            }
+        } catch (err) {
+            console.error(err)
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -43,8 +53,8 @@ export default function CreateTodoModal({ isOpen, setIsOpen }) {
                         <div className='w-full flex justify-center'>
                             <TextInput register={register} registerKey={'title'} place={'Project title ...'} />
                         </div>
-                        <div className='w-full text-center mt-5'>
-                            <button type='submit' className='bg-[var(--colorA)] px-5 py-2 rounded-full border-2 border-[var(--colTextA)]'>Create Project</button>
+                        <div className='w-full flex justify-center mt-5'>
+                            <button disabled={isLoading} type='submit' className='bg-[var(--colorA)] w-[150px] h-10 flex items-center justify-center rounded-full border-2 border-[var(--colTextA)]'>{isLoading ? <LoaderDot size={35} color='var(--colorText)' /> : `Create Project`}</button>
                         </div>
                     </form>
                 </div>

@@ -20,7 +20,10 @@ export default function TodosContainer({ id }) {
         <>
             <EditTaskModal todoID={projectID} taskID={taskID} isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className='flex flex-col gap-5 p-5 container'>
-                <h2 className='container px-10 bg-[var(--colorB)] py-3 shadow-lg rounded-xl'>{data?.title}</h2>
+                {
+                    data?.title &&
+                    <h2 className='container px-10 bg-[var(--colorB)] py-3 shadow-lg rounded-xl'>{data?.title}</h2>
+                }
                 {
                     data?.tasks?.map((task, index) => {
                         return (

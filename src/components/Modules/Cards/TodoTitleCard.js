@@ -2,28 +2,12 @@ import React from 'react'
 import Link from 'next/link'
 import { getDate, getTime } from '@/utiles/date/getDate'
 import { MdDelete } from "react-icons/md";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTodo } from '@/api/todos/deleteTodo';
-import { useToast } from '@/context/ToastContext';
 
-export default function TodoTitleCard({ title, createdAt, _id }) {
+export default function TodoTitleCard({ title, createdAt, _id , setIsOpen , setID }) {
 
-    const queryClient = useQueryClient()
-    const { showToast } = useToast()
-
-    const mutation = useMutation({
-        mutationFn: (id) => deleteTodo(id),
-        onSuccess: async () => {
-            await queryClient.invalidateQueries(['user'])
-            showToast('Project deleted successfully', "success")
-        },
-        onError: () => {
-            showToast('Something went wrong , try again', "error")
-        }
-    })
-
-    const deleteProject = async (id) => {
-        mutation.mutate(id)
+    const deleteButtonHanlder = () => {
+        setIsOpen(true)
+        setID(_id)
     }
 
     return (
@@ -34,7 +18,7 @@ export default function TodoTitleCard({ title, createdAt, _id }) {
             </div>
             <div className='flex items-center gap-2'>
                 <Link className='bg-[var(--colorA)] text-[12px] px-5 lg:text-[14px] py-2 lg:px-6 hoverLink rounded-full' href={`/todos/${_id}`}>View</Link>
-                <MdDelete onClick={() => deleteProject(_id)} className='cursor-pointer w-5  lg:w-6 h-5  lg:h-6 hoverLink' />
+                <MdDelete onClick={() => deleteButtonHanlder()} className='cursor-pointer w-5  lg:w-6 h-5  lg:h-6 hoverLink' />
             </div>
         </div>
     )
