@@ -32,7 +32,7 @@ export async function GET(req) {
             });
         }
 
-        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v').populate('todos')
+        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v -refreshToken').populate('todos')
 
         const newToken = generateToken({ email: user.email })
 
@@ -56,7 +56,7 @@ export async function GET(req) {
 
     }
 
-    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v').populate('todos')
+    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v -refreshToken').populate('todos')
 
     if (!user) {
         return new Response(JSON.stringify({ error: "User not found" }), {

@@ -8,6 +8,8 @@
     --colorHover: #22c55e;
     --colorText: #988d8d;
     --colorTextB: #a9a9a9;
+    --colorSafe: #4ade80;
+    --colorDanger: #f87171;
 }
 
 .dark {
@@ -16,6 +18,8 @@
     --colorHover: #22c55e;
     --colorText: #e2e2e2;
     --colorTextB: #919191;
+    --colorSafe: #15803d;
+    --colorDanger: #b91c1c;
 }
 
 .hoverLink {
@@ -80,18 +84,27 @@ input {
 }
 
 .loader_dot {
-  aspect-ratio: 4;
-  --dot:#000;
-  --_g: no-repeat radial-gradient(circle closest-side,var(--dot) 90%,#0000);
-  background: 
-    var(--_g) 0%   50%,
-    var(--_g) 50%  50%,
-    var(--_g) 100% 50%;
-  background-size: calc(100%/3) 100%;
-  animation: l7 1s infinite linear;
+    aspect-ratio: 4;
+    --dot: #000;
+    --_g: no-repeat radial-gradient(circle closest-side, var(--dot) 90%, #0000);
+    background:
+        var(--_g) 0% 50%,
+        var(--_g) 50% 50%,
+        var(--_g) 100% 50%;
+    background-size: calc(100%/3) 100%;
+    animation: l7 1s infinite linear;
 }
+
 @keyframes l7 {
-    33%{background-size:calc(100%/3) 0%  ,calc(100%/3) 100%,calc(100%/3) 100%}
-    50%{background-size:calc(100%/3) 100%,calc(100%/3) 0%  ,calc(100%/3) 100%}
-    66%{background-size:calc(100%/3) 100%,calc(100%/3) 100%,calc(100%/3) 0%  }
+    33% {
+        background-size: calc(100%/3) 0%, calc(100%/3) 100%, calc(100%/3) 100%
+    }
+
+    50% {
+        background-size: calc(100%/3) 100%, calc(100%/3) 0%, calc(100%/3) 100%
+    }
+
+    66% {
+        background-size: calc(100%/3) 100%, calc(100%/3) 100%, calc(100%/3) 0%
+    }
 }

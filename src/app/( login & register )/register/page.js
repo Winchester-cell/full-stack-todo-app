@@ -10,7 +10,7 @@ import { useToast } from '@/context/ToastContext';
 import { useAuthStore } from '@/store/useAuthStore';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 
@@ -18,9 +18,12 @@ export default function RegisterPage() {
 
     const { register, handleSubmit } = useForm()
     const { showToast } = useToast()
-    const { setUser , setIsLoggedIn } = useAuthStore()
+    const { setUser, setIsLoggedIn } = useAuthStore()
+    const [isLoading, setIsLoading] = useState(false)
 
     const submitHandler = async (data) => {
+        if (isLoading) return;
+        setIsLoading(true)
         const user = data
         const reqResult = await registerUser(user)
         if (reqResult.isOk) {
@@ -28,9 +31,11 @@ export default function RegisterPage() {
             const userData = await getUser()
             setUser(userData)
             setIsLoggedIn(true)
+            setIsLoading(false)
             redirect('/')
         } else {
             showToast(reqResult.result, 'error')
+            setIsLoading(false)
         }
     }
 
@@ -47,7 +52,7 @@ export default function RegisterPage() {
 
                 <PasswordInput registerKey={'password'} register={register} />
 
-                <SubmitInput buttonText={'Register'} />
+                <SubmitInput buttonText={'Register'} isLoading={isLoading} />
 
                 <ul className='text-sm w-full pl-16 flex flex-col gap-3 mt-3 list-disc'>
                     <li>

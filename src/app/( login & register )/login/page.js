@@ -7,10 +7,9 @@ import TextInput from '@/components/Modules/Inputs/TextInput';
 import LogoComponent from '@/components/Modules/Logo/Logo'
 import { useToast } from '@/context/ToastContext';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useQueryClient } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 
@@ -20,20 +19,23 @@ export default function LoginPage() {
   const { showToast } = useToast()
   const router = useRouter()
   const { setUser, setIsLoggedIn } = useAuthStore()
+  const [isLoading , setIsLoading] = useState(false)
 
   const loginHandler = async (data) => {
+    if(isLoading) return;
+    setIsLoading(true)
     const loginResult = await loginUser(data)
     if (loginResult.isOk) {
       const user = await getUser()
       setUser(user)
       setIsLoggedIn(true)
       showToast(loginResult.result, "success")
-      setTimeout(() => {
-        router.push('/')
-      }, 2000)
+      setIsLoading(false)
+      router.push('/')
     }
     else {
       showToast(loginResult.result, "error")
+      setIsLoading(false)
     }
 
   }
@@ -49,7 +51,7 @@ export default function LoginPage() {
 
         <PasswordInput place={'Password'} registerKey={'password'} register={register} />
 
-        <SubmitInput buttonText={'Login'} />
+        <SubmitInput isLoading={isLoading} buttonText={'Login'} />
 
         <ul className='text-sm w-full pl-16 flex flex-col gap-3 mt-3 list-disc'>
           <li className='hoverLink'>

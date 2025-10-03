@@ -3,8 +3,6 @@ import { IoClose } from "react-icons/io5";
 import TextInput from '../Inputs/TextInput';
 import { useForm } from 'react-hook-form';
 import { useAuthStore } from '@/store/useAuthStore';
-import postTodo from '@/api/todos/postTodo';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/context/ToastContext';
 import useAddProject from '@/Hooks/useAddProject';
 import LoaderDot from '../Loaders/LoaderDot';

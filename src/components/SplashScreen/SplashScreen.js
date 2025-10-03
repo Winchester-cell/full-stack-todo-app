@@ -1,6 +1,7 @@
 'use client'
 import getUser from '@/api/auth/getuser'
 import { useAuthStore } from '@/store/useAuthStore'
+import { useTodoStore } from '@/store/useTodoStore'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { SiSimplenote } from 'react-icons/si'
@@ -10,6 +11,7 @@ export default function SplashScreen() {
 
     const [visible, setVisible] = useState(true)
     const { setIsLoggedIn, setUser } = useAuthStore()
+    const {todos , setTodos} = useTodoStore()
 
     const { data } = useQuery({
         queryKey: ['user'],
@@ -26,6 +28,7 @@ export default function SplashScreen() {
     useEffect(() => {
         setIsLoggedIn(!!data)
         setUser(data)
+        setTodos(data?.todos) 
     }, [data])
 
     if (!visible) {

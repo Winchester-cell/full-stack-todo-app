@@ -31,8 +31,8 @@ export default function ConfrimModal({ isOpen, setIsOpen, onConfirm, message }) 
                 <div className='rounded-xl bg-[var(--colorB)] w-[300px] lg:w-[500px] h-fit p-5'>
                     <div className='w-full text-center text-xl font-bold'>{message}</div>
                     <div className='w-full flex gap-5 justify-center items-center mt-5 text-white'>
-                        <button disabled={isloading} onClick={() => confirmHanlder()} className='w-[120px] flex items-center justify-center h-10 rounded-full bg-green-700'>{isloading ? <LoaderDot size={40} color='white' /> : `Confirm`}</button>
-                        <button disabled={isloading} onClick={() => setIsOpen(false)} className='w-[120px] flex items-center justify-center h-10 rounded-full bg-red-700'>Cancel</button>
+                        <button disabled={isloading} onClick={() => confirmHanlder()} className='w-[120px] flex items-center justify-center h-10 rounded-full bg-[var(--colorSafe)]'>{isloading ? <LoaderDot size={40} color='white' /> : `Confirm`}</button>
+                        <button disabled={isloading} onClick={() => setIsOpen(false)} className='w-[120px] flex items-center justify-center h-10 rounded-full bg-[var(--colorDanger)]'>Cancel</button>
                     </div>
                 </div>
 
