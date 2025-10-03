@@ -8,6 +8,7 @@ import TextInput from '@/components/Modules/Inputs/TextInput';
 import LogoComponent from '@/components/Modules/Logo/Logo'
 import { useToast } from '@/context/ToastContext';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTodoStore } from '@/store/useTodoStore';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React, { useState } from 'react'
@@ -19,6 +20,7 @@ export default function RegisterPage() {
     const { register, handleSubmit } = useForm()
     const { showToast } = useToast()
     const { setUser, setIsLoggedIn } = useAuthStore()
+    const { setTodos } = useTodoStore()
     const [isLoading, setIsLoading] = useState(false)
 
     const submitHandler = async (data) => {
@@ -30,6 +32,7 @@ export default function RegisterPage() {
             showToast(reqResult.result)
             const userData = await getUser()
             setUser(userData)
+            setTodos(user.todos)
             setIsLoggedIn(true)
             setIsLoading(false)
             redirect('/')

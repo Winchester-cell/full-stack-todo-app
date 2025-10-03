@@ -7,6 +7,7 @@ import TextInput from '@/components/Modules/Inputs/TextInput';
 import LogoComponent from '@/components/Modules/Logo/Logo'
 import { useToast } from '@/context/ToastContext';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useTodoStore } from '@/store/useTodoStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const { showToast } = useToast()
   const router = useRouter()
   const { setUser, setIsLoggedIn } = useAuthStore()
+  const {setTodos} = useTodoStore()
   const [isLoading , setIsLoading] = useState(false)
 
   const loginHandler = async (data) => {
@@ -28,6 +30,7 @@ export default function LoginPage() {
     if (loginResult.isOk) {
       const user = await getUser()
       setUser(user)
+      setTodos(user.todos)
       setIsLoggedIn(true)
       showToast(loginResult.result, "success")
       setIsLoading(false)
