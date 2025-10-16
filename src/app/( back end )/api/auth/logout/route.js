@@ -2,9 +2,19 @@ import { cookies } from "next/headers";
 
 export async function POST() {
 
-    const cookieStore = cookies();
+    const cookieStore = await cookies();
     cookieStore.set({
         name: 'token',
+        value: '',
+        path: '/',
+        expires: new Date(0),
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+    });
+
+    cookieStore.set({
+        name: 'refreshToken',
         value: '',
         path: '/',
         expires: new Date(0),

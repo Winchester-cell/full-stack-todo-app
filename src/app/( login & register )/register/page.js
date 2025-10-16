@@ -10,7 +10,7 @@ import { useToast } from '@/context/ToastContext';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useTodoStore } from '@/store/useTodoStore';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 
@@ -22,6 +22,7 @@ export default function RegisterPage() {
     const { setUser, setIsLoggedIn } = useAuthStore()
     const { setTodos } = useTodoStore()
     const [isLoading, setIsLoading] = useState(false)
+    const router = useRouter()
 
     const submitHandler = async (data) => {
         if (isLoading) return;
@@ -29,13 +30,14 @@ export default function RegisterPage() {
         const user = data
         const reqResult = await registerUser(user)
         if (reqResult.isOk) {
-            showToast(reqResult.result)
             const userData = await getUser()
+            console.log(userData);
             setUser(userData)
             setTodos(user.todos)
             setIsLoggedIn(true)
+            showToast(reqResult.result)
             setIsLoading(false)
-            redirect('/')
+            router.push('/')
         } else {
             showToast(reqResult.result, 'error')
             setIsLoading(false)

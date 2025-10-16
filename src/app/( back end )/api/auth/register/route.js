@@ -56,7 +56,7 @@ export async function POST(req) {
     const serializedRefreshTokenCookie = serialize("refreshToken", refreshToken, {
         httpOnly: true,
         path: "/",
-        maxAge: 60 * 60 * 24,
+        maxAge: 60 * 60 * 24 * 7,
         secure: true,
         sameSite: "lax",
     })

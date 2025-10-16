@@ -32,7 +32,7 @@ export default function ProjectListContainer() {
 
 
 
-    if (todos.length === 0 && !isSearching) {
+    if (todos?.length === 0 && !isSearching) {
         return (
             <div className='container flex-grow p-5'>
                 <div className='border-2 border-dashed rounded-2xl text-[var(--colorTextB)] border-[var(--colorTextB)] h-full flex items-center justify-center'>
@@ -51,7 +51,7 @@ export default function ProjectListContainer() {
             <div className='container px-5 py-5'>
                 <div className='grid grid-cols-1 xl:grid-cols-3 gap-5'>
                     {
-                        todos.map((todo, index) => {
+                        todos?.map((todo, index) => {
                             return (
                                 <AnimateOnScroll key={todo._id} delay={100 * index}>
                                     <TodoTitleCard setID={setID} setIsOpen={setIsOpen} {...todo} />
