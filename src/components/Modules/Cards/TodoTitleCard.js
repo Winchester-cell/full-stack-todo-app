@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { getDate, getTime } from '@/utiles/date/getDate'
+import { getDate, getTime } from '@/utils/date/getDate'
 import { MdDelete } from "react-icons/md";
 
 export default function TodoTitleCard({ title, createdAt, _id , setIsOpen , setID }) {

@@ -1,7 +1,7 @@
 import userModel from "@/models/user";
 import todoModel from "@/models/todo";
-import { generateToken, verifyRefreshToken, verifyToken } from "@/utiles/auth/token";
-import dbConnect from "@/utiles/database/dbConnect";
+import { generateToken, verifyRefreshToken, verifyToken } from "@/utils/auth/token";
+import dbConnect from "@/utils/database/dbConnect";
 import { cookies } from "next/headers";
 import { serialize } from "cookie";
 

@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { verifyToken, verifyRefreshToken, generateToken } from "./auth/token";
+import { verifyToken, verifyRefreshToken } from "./auth/token";
 import userModel from "@/models/user";
 import dbConnect from "./database/dbConnect";
 

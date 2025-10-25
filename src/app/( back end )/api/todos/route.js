@@ -1,5 +1,5 @@
 import todoModel from "@/models/todo";
-import checkuserOnServerSide from "@/utiles/checkUserOnServer"
+import checkuserOnServerSide from "@/utils/checkUserOnServer"
 
 export async function GET() {
 

@@ -1,9 +1,9 @@
 import userModel from "@/models/user";
-import { verifyPassword } from "@/utiles/auth/password";
-import { generateRefreshToken, generateToken } from "@/utiles/auth/token";
+import { verifyPassword } from "@/utils/auth/password";
+import { generateRefreshToken, generateToken } from "@/utils/auth/token";
 import { serialize } from "cookie";
 
-const { default: dbConnect } = require("@/utiles/database/dbConnect");
+const { default: dbConnect } = require("@/utils/database/dbConnect");
 
 export async function POST(req) {
 

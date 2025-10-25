@@ -1,5 +1,5 @@
 import { checkUser } from "@/utiles/checkUser";
-import dbConnect from "@/utiles/database/dbConnect";
+import dbConnect from "@/utils/database/dbConnect";
 
 export async function PATCH(req) {
 

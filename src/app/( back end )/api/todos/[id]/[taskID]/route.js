@@ -1,6 +1,6 @@
 import todoModel from "@/models/todo";
-import { checkUser } from "@/utiles/checkUser";
-import dbConnect from "@/utiles/database/dbConnect";
+import { checkUser } from "@/utils/checkUser";
+import dbConnect from "@/utils/database/dbConnect";
 
 export async function DELETE(request, { params }) {
 

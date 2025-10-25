@@ -1,11 +1,11 @@
 'use client'
 import Cropper from 'react-easy-crop'
 import { useEffect, useState } from 'react'
-import getCroppedImg from '@/utiles/others/getCroppedImg'
+import getCroppedImg from '@/utils/others/getCroppedImg'
 import { MdZoomIn, MdZoomOut } from "react-icons/md";
 import { useUploadImageStore } from '@/store/useUploadImageStore';
 import updateAvatar from '@/api/user/updateAvatar';
-import { uploadImage } from '@/utiles/others/uploadcare';
+import { uploadImage } from '@/utils/others/uploadcare';
 import { useToast } from '@/context/ToastContext';
 import { useQueryClient } from '@tanstack/react-query';
 

@@ -1,3 +1,4 @@
+'use client'
 import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll';
 import TodoTitleCard from '@/components/Modules/Cards/TodoTitleCard'
 import ConfrimModal from '@/components/Modules/Modals/ConfrimModal';
