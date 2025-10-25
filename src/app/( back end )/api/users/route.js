@@ -1,5 +1,5 @@
 import userModel from "@/models/user"
-import dbConnect from "@/utiles/database/dbConnect"
+import dbConnect from "@/utils/database/dbConnect"
 
 export async function GET() {
 

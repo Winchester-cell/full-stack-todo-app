@@ -1,7 +1,7 @@
 import userModel from "@/models/user"
-import { hashPassword } from "@/utiles/auth/password"
-import { generateRefreshToken, generateToken } from "@/utiles/auth/token"
-import dbConnect from "@/utiles/database/dbConnect"
+import { hashPassword } from "@/utils/auth/password"
+import { generateRefreshToken, generateToken } from "@/utils/auth/token"
+import dbConnect from "@/utils/database/dbConnect"
 import { serialize } from "cookie"
 
 export async function POST(req) {
