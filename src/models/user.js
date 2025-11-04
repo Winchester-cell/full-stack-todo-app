@@ -22,11 +22,29 @@ const schema = mongoose.Schema({
         type: String,
         required: false,
         default: null,
+    },
+    recoveryCode: {
+        type: String,
+        require: false,
+        default: null,
+    },
+    expTime: {
+        require: false,
+        type: Number,
+        default: null,
+    },
+    tryTimes: {
+        type: Number,
+        required: false
+    },
+    recoveryCooldown: {
+        type: Number,
+        required: false
     }
 
 }
     , {
-        toJSON: { virtuals: true },  
+        toJSON: { virtuals: true },
         toObject: { virtuals: true },
     })
 

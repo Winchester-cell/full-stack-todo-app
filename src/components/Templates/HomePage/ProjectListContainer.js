@@ -39,7 +39,7 @@ export default function ProjectListContainer() {
                 <div className='border-2 border-dashed rounded-2xl text-[var(--colorTextB)] border-[var(--colorTextB)] h-full flex items-center justify-center'>
                     <div className='flex flex-col items-center'>
                         <IoFolder className='w-16 h-16' />
-                        <div>No Project created yet !</div>
+                        <div>No project created yet !</div>
                     </div>
                 </div>
             </div>

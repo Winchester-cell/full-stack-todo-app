@@ -7,8 +7,11 @@ export async function middleware(request) {
 
   const publicPaths = [
     '/login',
+    '/register',
     '/api/auth/login',
     '/api/auth/register',
+    '/api/auth/recovery',
+    '/api/auth/verifyrecoverycode',
     '/api/auth/getme',
   ];
 

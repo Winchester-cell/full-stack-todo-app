@@ -5,6 +5,7 @@ const getUser = async () => {
     try {
         const res = await api.get("/auth/getme");
         if (res.status === 200) {
+            console.log(res.data);     
             return res.data
         }
 

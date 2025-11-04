@@ -33,7 +33,7 @@ export default function RegisterPage() {
             const userData = await getUser()
             console.log(userData);
             setUser(userData)
-            setTodos(user.todos)
+            setTodos([])
             setIsLoggedIn(true)
             showToast(reqResult.result)
             setIsLoading(false)
