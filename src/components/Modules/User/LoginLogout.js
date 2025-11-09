@@ -12,7 +12,7 @@ export default function LoginLogout({ width, height }) {
     const logOutHandler = async () => {
         const res = await logout()
         if (res.isOk) {
-            redirect('/')
+            redirect('/login')
         }
     }
 
