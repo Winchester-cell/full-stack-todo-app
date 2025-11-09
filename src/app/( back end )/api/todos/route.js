@@ -13,7 +13,7 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page")) || 1;
-    const perPage = 2
+    const perPage = 15
 
     const total = await todoModel.countDocuments({ userID: user._id });
     const totalPages = Math.ceil(total / perPage);

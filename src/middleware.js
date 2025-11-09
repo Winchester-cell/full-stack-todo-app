@@ -42,10 +42,10 @@ export async function middleware(request) {
       },
     });
 
-    console.log('log = ', res);
+    console.log('log = ', res.status);
 
 
-    if (res.status === 401) {
+    if (res.status !== 200) {
       const response = NextResponse.redirect(new URL('/login', request.url));
       response.cookies.delete('token');
       response.cookies.delete('refreshToken');
