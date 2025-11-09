@@ -3,23 +3,39 @@ import CreateTodoModal from '@/components/Modules/Modals/CreateTodoModal';
 import React, { useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import SearchProject from './SearchProject';
-
+import PaginationControls from './PaginationControls';
+import { useQuery } from '@tanstack/react-query';
+import getTodos from '@/api/todos/getTodos';
+import useProjectsPagination from '@/hooks/usePagination';
 
 export default function Controls() {
 
+    // get todos list
+    const { data } = useQuery({
+        queryKey: ['todos'],
+        queryFn: () => getTodos()
+    })
+    // state for open/close => create project modal
     const [isOpen, setIsOpen] = useState(false)
+    // pagination states  
+    const pageInfo = useProjectsPagination(data?.totalPages)
 
     return (
         <>
-            <div className='container flex items-center gap-3 lg:gap-5 px-5'>
-
-                <button onClick={() => setIsOpen(true)} className="justify-center bg-[var(--colorB)] w-[155px] lg:w-fit py-3 lg:py-5 px-7 text-[12px] lg:text-[1rem] lg:px-20 rounded-full shadow-lg flex items-center gap-1">
-                    <FaPlus /> Add Project
-                </button>
-
-                <SearchProject />
-
+            {/* mobile template */}
+            <div className='container flex lg:flex-row flex-col lg:items-center lg:justify-between gap-3 lg:gap-5 px-5'>
+                <div className='flex items-center gap-3'>
+                    {/* create project */}
+                    <button onClick={() => setIsOpen(true)} className="justify-center bg-[var(--colorB)] w-[155px] lg:w-fit py-3 lg:py-5 px-7 text-[12px] lg:text-[1rem] lg:px-20 rounded-full shadow-lg flex items-center gap-1">
+                        <FaPlus /> Add Project
+                    </button>
+                    {/* search component and search functions */}
+                    <SearchProject />
+                </div>
+                {/* pagination control */}
+                <PaginationControls {...pageInfo} />
             </div>
+            {/* create project modal */}
             <CreateTodoModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </>
     )

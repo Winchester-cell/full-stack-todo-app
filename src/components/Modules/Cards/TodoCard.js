@@ -2,8 +2,7 @@ import React from 'react'
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
-import useDeleteTask from '@/Hooks/useDeleteTask';
-import ToggleTodoStatus from '../ToggleTodoStatus/ToggleTodoStatus';
+import ToggleTodoStatus from '../ActionButtons/ToggleTodoStatus';
 
 export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen , setIsConfirmOpen }) {
 
@@ -30,7 +29,6 @@ export default function TodoCard({ index, title, isDone, _id, setTaskID, setProj
                     <div className='flex items-center gap-5 lg:gap-10'>
                         <ToggleTodoStatus isDone={isDone} _id={_id} />
                         <MdModeEdit onClick={()=>clickHandler('edit')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
-                        {/* <MdDelete onClick={() => deleteMutation.mutate({ projectID, taskID: _id })} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' /> */}
                         <MdDelete onClick={() => clickHandler('delete')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
                     </div>
                     {

@@ -1,9 +1,10 @@
 import { getTodo } from '@/api/todos/getTodo'
 import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll'
+import EditProjectTitle from '@/components/Modules/ActionButtons/EditProjectTitle'
 import TodoCard from '@/components/Modules/Cards/TodoCard'
 import ConfrimModal from '@/components/Modules/Modals/ConfrimModal'
 import EditTaskModal from '@/components/Modules/Modals/EditTaskModal'
-import useDeleteTask from '@/Hooks/useDeleteTask'
+import useDeleteTask from '@/hooks/query-hooks/useDeleteTask'
 import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 
@@ -31,7 +32,10 @@ export default function TodosContainer({ id }) {
             <div className='flex flex-col gap-5 p-5 container'>
                 {
                     data?.title &&
-                    <h2 className='container px-10 bg-[var(--colorB)] py-3 shadow-lg rounded-xl'>{data?.title}</h2>
+                    <div className='container flex justify-between items-center text-lg ps-5 bg-[var(--colorB)] font-semibold py-3 shadow-lg rounded-xl'>
+                        <h2>{data?.title}</h2>
+                        <EditProjectTitle />
+                    </div>
                 }
                 {
                     data?.tasks?.map((task, index) => {

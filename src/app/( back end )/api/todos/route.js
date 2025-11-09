@@ -1,19 +1,32 @@
 import todoModel from "@/models/todo";
-import checkuserOnServerSide from "@/utils/checkUserOnServer"
+import { checkUser } from "@/utils/checkUser";
 
-export async function GET() {
+export async function GET(req) {
 
-    const isUserLoggedIn = await checkuserOnServerSide()
+    const user = await checkUser()
 
-    if (!isUserLoggedIn) {
+    if (!user) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
         });
     }
 
-    const todos = await todoModel.find()
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page")) || 1;
+    const perPage = 2
 
-    return new Response(JSON.stringify(todos), {
+    const total = await todoModel.countDocuments({ userID: user._id });
+    const totalPages = Math.ceil(total / perPage);
+
+    if (page > totalPages && totalPages !== 0) {
+        return new Response(JSON.stringify({ error: "Page not found" }), {
+            status: 400,
+        });
+    }
+
+    const todos = await todoModel.find({ userID: user._id }).skip((page - 1) * perPage).limit(perPage);
+
+    return new Response(JSON.stringify({ todos: todos, totalPages: totalPages }), {
         status: 200
     })
 
@@ -22,9 +35,9 @@ export async function GET() {
 export async function POST(req) {
 
     const todo = await req.json()
-    const isUserLoggedIn = await checkuserOnServerSide()
+    const user = await checkUser()
 
-    if (!isUserLoggedIn) {
+    if (!user) {
         return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
         });

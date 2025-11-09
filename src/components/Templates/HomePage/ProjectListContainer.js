@@ -1,38 +1,54 @@
 'use client'
+import getTodos from '@/api/todos/getTodos';
 import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll';
 import TodoTitleCard from '@/components/Modules/Cards/TodoTitleCard'
-import ConfrimModal from '@/components/Modules/Modals/ConfrimModal';
+import ConfirmModal from '@/components/Modules/Modals/ConfrimModal';
 import { useToast } from '@/context/ToastContext';
-import useDeleteProject from '@/Hooks/useDeleteProject';
+import useDeleteProject from '@/hooks/query-hooks/useDeleteProject';
+import useProjectsPagination from '@/hooks/usePagination';
 import { useTodoStore } from '@/store/useTodoStore';
-import React, { useState } from 'react'
+import { useQuery } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react'
 import { IoFolder } from "react-icons/io5";
-
 
 export default function ProjectListContainer() {
 
-    const { todos , setTodos , isSearching, setIsSearching } = useTodoStore()
+    const { todos, setTodos, isSearching, setIsSearching } = useTodoStore()
+    const { data } = useQuery({
+        queryKey: ['todos'],
+        queryFn: () => getTodos()
+    })
+
+    useEffect(() => {
+        if (data) {
+            setTodos(data.todos)
+        }
+    }, [data])
+
+    // state for selected id ( when user clicks on delete button of a project card)
     const [id, setID] = useState()
+
     const [isOpen, setIsOpen] = useState(false)
     const deleteProjectMutation = useDeleteProject()
     const { showToast } = useToast()
+     const pageInfo = useProjectsPagination()
 
+    // delete project function 
     const deleteProject = async () => {
         const res = await deleteProjectMutation.mutateAsync(id);
 
         if (res.isOk) {
             showToast(res.result);
-            if (todos.length === 1) { 
+            if (todos.length === 1 && pageInfo.currentPage > 1) {
+                pageInfo.setCurrentPage(pageInfo.currentPage - 1)
                 setIsSearching(false);
-                setTodos([]);
+                setTodos([])
             }
         } else {
             showToast(res.result, "error");
         }
-    };
-
-
-
+    }
+    // message when no projects exist
     if (todos?.length === 0 && !isSearching) {
         return (
             <div className='container flex-grow p-5'>
@@ -45,10 +61,12 @@ export default function ProjectListContainer() {
             </div>
         )
     }
-
+    // container displaying created projects
     return (
         <>
-            <ConfrimModal onConfirm={deleteProject} isOpen={isOpen} setIsOpen={setIsOpen} message={`Delete project ?`} />
+            {/* modal for confirm delete */}
+            <ConfirmModal onConfirm={deleteProject} isOpen={isOpen} setIsOpen={setIsOpen} message={`Delete project ?`} />
+            {/* cards container */}
             <div className='container px-5 py-5'>
                 <div className='grid grid-cols-1 xl:grid-cols-3 gap-5'>
                     {

@@ -55,7 +55,6 @@ export default function CropImageModal() {
         setSelectedFile(null)
     }
 
-
     return (
 
         <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
@@ -86,7 +85,6 @@ export default function CropImageModal() {
                             className="w-24 block"
                         />
                         <MdZoomIn className='w-6 h-6' />
-
                     </div>
 
                     <div className="absolute bottom-4 left-4 flex gap-2">

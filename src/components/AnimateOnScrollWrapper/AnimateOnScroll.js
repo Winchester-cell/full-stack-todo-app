@@ -1,6 +1,8 @@
 'use client'
-import { useInView } from "@/Hooks/Animate/useInView";
+import { useInView } from "@/hooks/animate/useInView";
 import React from "react";
+
+// this component used to animate cards and lists by scrolling
 
 export default function AnimateOnScroll({ children, delay = 0 }) {
   const [ref, inView] = useInView();

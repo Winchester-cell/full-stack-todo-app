@@ -6,8 +6,9 @@ import { FaSearch } from 'react-icons/fa'
 export default function SearchProject() {
 
     const { user } = useAuthStore()
+    // a zustand store to manage filtered items and typing state
     const { setTodos, setIsSearching } = useTodoStore()
-
+    // handler for real-time todo filtering (used in the onChange event)
     const filterHandler = (e) => {
 
         if (!user || user.todos.length === 0) return;
@@ -28,7 +29,6 @@ export default function SearchProject() {
 
         setTodos(filteredList);
     };
-
 
     return (
         <div className='bg-[var(--colorB)] w-[calc(100%-155px)] lg:w-[350px] rounded-full p-1 shadow-lg'>

@@ -5,7 +5,9 @@ export default function Home() {
 
   return (
     <div className="h-[calc(100dvh-100px)] flex flex-col">
+      {/* includes create project,search,pagination and other controls  */}
       <Controls />
+      {/* includes a container with project cards */}
       <ProjectListContainer />
     </div>
   )

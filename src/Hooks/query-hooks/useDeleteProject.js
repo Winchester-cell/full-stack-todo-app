@@ -10,7 +10,7 @@ export default function useDeleteProject() {
     return useMutation({
         mutationFn: (id) => deleteTodo(id),
         onSuccess: async () => {
-            await queryClient.invalidateQueries(['user'])
+            await queryClient.invalidateQueries(['todos'])
         },
         onError: () => {
             showToast('Something went wrong , try again', "error")

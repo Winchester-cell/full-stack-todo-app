@@ -1,12 +1,17 @@
-import TodoMainTemplate from '@/components/Templates/TodoPage/TodoMainTemplate'
+'use client'
+import { useParams } from 'next/navigation'
 import React from 'react'
+import TaskInput from '@/components/Templates/TodoPage/TaskInput'
+import TodosContainer from '@/components/Templates/TodoPage/TodosContainer'
 
-export default async function TodoPage() {
+export default function TodoPage() {
+
+    const params = useParams()
 
     return (
         <>
-            <TodoMainTemplate />
+            <TaskInput {...params} />
+            <TodosContainer {...params} />
         </>
     )
-
 }

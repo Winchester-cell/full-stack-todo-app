@@ -7,12 +7,11 @@ import { useAuthStore } from '@/store/useAuthStore'
 
 export default function LoginLogout({ width, height }) {
 
-    const { isLoggedIn, setIsLoggedIn } = useAuthStore()
+    const { isLoggedIn } = useAuthStore()
 
     const logOutHandler = async () => {
         const res = await logout()
         if (res.isOk) {
-            setIsLoggedIn(false)
             redirect('/')
         }
     }

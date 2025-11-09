@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import LoaderDot from '../Loaders/LoaderDot'
-import useUpdateTask from '@/Hooks/useUpdateTask'
+import useUpdateTask from '@/hooks/query-hooks/useUpdateTask'
 import { useParams } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { IoCheckmark, IoClose } from 'react-icons/io5'

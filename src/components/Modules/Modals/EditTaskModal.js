@@ -1,39 +1,22 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { IoClose } from 'react-icons/io5'
 import TextInput from '../Inputs/TextInput'
-import useUpdateTask from '@/Hooks/useUpdateTask'
-import { useToast } from '@/context/ToastContext'
+import useUpdateTask from '@/hooks/query-hooks/useUpdateTask'
 import LoaderDot from '../Loaders/LoaderDot'
+import useModalSubmitHandler from '@/hooks/useModalSubmitHandler'
 
 export default function EditTaskModal({ isOpen, setIsOpen, todoID, taskID }) {
 
     const { register, handleSubmit, reset } = useForm()
-    const { showToast } = useToast()
     const updateTaskMutation = useUpdateTask()
-
-    const [isLoading, setIsLoading] = useState(false)
+    const {handlerFunction , isLoading} = useModalSubmitHandler(updateTaskMutation , reset , setIsOpen)
 
     const submitHandler = async (data) => {
 
-        if (isLoading) {
-            return;
-        }
-        try {
-            setIsLoading(true)
-            const res = await updateTaskMutation.mutateAsync({ update: { type: 'rename', body: data.title }, todoID, taskID })
-            if (res.isOk) {
-                showToast(res.result)
-                setIsOpen(false)
-                reset()
-            } else {
-                showToast(res.result, 'error')
-            }
-        } catch (err) {
-            console.error(err)
-        } finally {
-            setIsLoading(false)
-        }
+        const editedData = { update: { type: 'rename', body: data.title }, todoID, taskID }
+
+        await handlerFunction(editedData)
 
     }
 

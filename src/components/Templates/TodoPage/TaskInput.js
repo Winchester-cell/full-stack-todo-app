@@ -7,8 +7,10 @@ import { patchTodo } from "@/api/todos/patchTodo";
 import { useQueryClient } from "@tanstack/react-query";
 
 export default function TaskInput({ id }) {
+
     const queryClient = useQueryClient()
     const { register, handleSubmit, reset } = useForm()
+    
     const addTask = async (data) => {
         const todo = { title: data.title, isDone: false }
         await patchTodo(id, todo)

@@ -6,11 +6,12 @@ import { cookies } from "next/headers";
 import { serialize } from "cookie";
 
 
-export async function GET(req) {
+export async function GET() {
 
     await dbConnect()
 
     const cookieStore = await cookies()
+
     const token = cookieStore.get('token')?.value
     const refreshToken = cookieStore.get('refreshToken')?.value
 
@@ -32,7 +33,11 @@ export async function GET(req) {
             });
         }
 
-        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v -refreshToken').populate('todos')
+        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes').populate('todos')
+
+        if (!user) {
+            return new Response(JSON.stringify({ msg: 'user not found' }), { status: 404 })
+        }
 
         const newToken = generateToken({ email: user.email })
 
@@ -43,7 +48,6 @@ export async function GET(req) {
             secure: true,
             sameSite: "lax",
         });
-
 
         return new Response(JSON.stringify(user), {
             status: 200,
@@ -56,7 +60,7 @@ export async function GET(req) {
 
     }
 
-    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v -refreshToken').populate('todos')
+    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes')
 
     if (!user) {
         return new Response(JSON.stringify({ error: "User not found" }), {
