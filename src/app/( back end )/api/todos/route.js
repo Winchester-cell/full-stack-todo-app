@@ -1,5 +1,6 @@
 import todoModel from "@/models/todo";
 import { checkUser } from "@/utils/checkUser";
+import { escapeRegex } from "@/utils/others/escapeRegex";
 
 export async function GET(req) {
 
@@ -12,8 +13,17 @@ export async function GET(req) {
     }
 
     const { searchParams } = new URL(req.url);
+    const filter = searchParams.get("filter")
     const page = parseInt(searchParams.get("page")) || 1;
     const perPage = 15
+
+    if (filter) {
+        const safeFilter = escapeRegex(filter)
+        const filteredTodos = await todoModel.find({
+            title: { $regex: safeFilter, $options: "i" } 
+        });
+        return new Response(JSON.stringify(filteredTodos))
+    }
 
     const total = await todoModel.countDocuments({ userID: user._id });
     const totalPages = Math.ceil(total / perPage);

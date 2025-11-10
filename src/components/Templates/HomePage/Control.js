@@ -4,17 +4,12 @@ import React, { useState } from 'react'
 import { FaPlus } from "react-icons/fa6";
 import SearchProject from './SearchProject';
 import PaginationControls from './PaginationControls';
-import { useQuery } from '@tanstack/react-query';
-import getTodos from '@/api/todos/getTodos';
-import useProjectsPagination from '@/hooks/usePagination';
+import useProjectsPagination from '@/hooks/useProjectPagination';
+import useTodos from '@/hooks/query-hooks/useTodos';
 
 export default function Controls() {
 
-    // get todos list
-    const { data } = useQuery({
-        queryKey: ['todos'],
-        queryFn: () => getTodos()
-    })
+    const {data} = useTodos({queryType:'normal' , enableOption:true})
     // state for open/close => create project modal
     const [isOpen, setIsOpen] = useState(false)
     // pagination states  

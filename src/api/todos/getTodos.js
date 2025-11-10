@@ -1,9 +1,9 @@
 const { default: api } = require("../mainInstance/main")
 
-const getTodos = async (page = 1) => {
+const getTodos = async (page = 1, filter = null) => {
     try {
         const res = await api.get('/todos', {
-            params: { page }
+            params: { page, filter }
         })
         return res.data
     } catch (err) {

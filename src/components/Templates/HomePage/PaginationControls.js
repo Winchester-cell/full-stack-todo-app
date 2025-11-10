@@ -1,26 +1,23 @@
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
-import getTodos from '@/api/todos/getTodos'
 import { useTodoStore } from '@/store/useTodoStore'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect } from 'react'
+import useTodos from "@/hooks/query-hooks/useTodos";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function PaginationControls({ totalPages, currentPage, setCurrentPage }) {
 
-    const { data } = useQuery({
-        queryKey: ['todos', currentPage],
-        queryFn: () => getTodos(currentPage)
-    })
+    const { data } = useTodos({ queryType: 'normal', enableOption: true })
 
     const queryClient = useQueryClient()
 
-    const { setTodos } = useTodoStore()
+    const { setTodos, isSearching } = useTodoStore()
 
     useEffect(() => {
         if (data) {
-            if(data.todos?.length === 1) {
-                queryClient.invalidateQueries(['todos' , currentPage])
+            if (data.todos?.length === 1) {
+                queryClient.invalidateQueries(['todos', currentPage])
                 setTodos(data.todos)
-            }else{
+            } else {
                 setTodos(data.todos)
             }
         }
@@ -28,7 +25,7 @@ export default function PaginationControls({ totalPages, currentPage, setCurrent
 
 
 
-    if (!totalPages || totalPages === 1) {
+    if (isSearching || !totalPages || totalPages === 1) {
         return null
     }
 

@@ -1,23 +1,19 @@
 'use client'
-import getTodos from '@/api/todos/getTodos';
 import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll';
 import TodoTitleCard from '@/components/Modules/Cards/TodoTitleCard'
 import ConfirmModal from '@/components/Modules/Modals/ConfrimModal';
 import { useToast } from '@/context/ToastContext';
 import useDeleteProject from '@/hooks/query-hooks/useDeleteProject';
-import useProjectsPagination from '@/hooks/usePagination';
+import useTodos from '@/hooks/query-hooks/useTodos';
+import useProjectsPagination from '@/hooks/useProjectPagination';
 import { useTodoStore } from '@/store/useTodoStore';
-import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react'
 import { IoFolder } from "react-icons/io5";
 
 export default function ProjectListContainer() {
 
     const { todos, setTodos, isSearching, setIsSearching } = useTodoStore()
-    const { data } = useQuery({
-        queryKey: ['todos'],
-        queryFn: () => getTodos()
-    })
+    const {data} = useTodos({queryType:'normal' , enableOption:true})
 
     useEffect(() => {
         if (data) {
@@ -31,7 +27,7 @@ export default function ProjectListContainer() {
     const [isOpen, setIsOpen] = useState(false)
     const deleteProjectMutation = useDeleteProject()
     const { showToast } = useToast()
-     const pageInfo = useProjectsPagination()
+    const pageInfo = useProjectsPagination()
 
     // delete project function 
     const deleteProject = async () => {
@@ -48,6 +44,7 @@ export default function ProjectListContainer() {
             showToast(res.result, "error");
         }
     }
+
     // message when no projects exist
     if (todos?.length === 0 && !isSearching) {
         return (

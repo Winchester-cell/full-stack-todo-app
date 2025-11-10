@@ -1,24 +1,26 @@
-'use client'
-
 import getTodos from "@/api/todos/getTodos"
+import { useProjectsPaginationStore } from "@/store/useProjectsPaginationStore"
 import { useQuery } from "@tanstack/react-query"
-import { useEffect, useState } from "react"
 
-export default function useTodos() {
+export default function useTodos({ queryType, enableOption, filterValue }) {
 
-    const { data, isLoading } = useQuery({
-        queryKey: ['Todos'],
-        queryFn: getTodos,
-    })
+    const { currentPage } = useProjectsPaginationStore()
 
-    const [todos, setTodos] = useState([])
+    if (queryType === 'normal') {
+        return useQuery({
+            queryKey: ['todos', currentPage],
+            queryFn: () => getTodos(currentPage),
+            enabled: enableOption
+        })
+    }
+    if (queryType === 'filtering') {
+        return useQuery({
+            queryKey: ['todos', filterValue],
+            queryFn: () => getTodos(null, filterValue),
+            enabled: enableOption
+        })
+    }
 
-    useEffect(() => {
-        if (Array.isArray(data)) {
-            setTodos(data)
-        }
-    }, [data])
-
-    return { todos, isLoading }
+    else return 'no valid query type'
 
 }
