@@ -6,26 +6,26 @@ import { useQueryClient } from "@tanstack/react-query";
 
 export default function PaginationControls({ totalPages, currentPage, setCurrentPage }) {
 
-    const { data } = useTodos({ queryType: 'normal', enableOption: true })
-
+    const { setTodos, filterValue } = useTodoStore()
+    const { data } = useTodos({ filterValue })
     const queryClient = useQueryClient()
 
-    const { setTodos, isSearching } = useTodoStore()
-
     useEffect(() => {
+        if (currentPage > totalPages) {
+            setCurrentPage(1)
+        }
         if (data) {
             if (data.todos?.length === 1) {
-                queryClient.invalidateQueries(['todos', currentPage])
+                queryClient.invalidateQueries(['todos', currentPage, filterValue])
                 setTodos(data.todos)
             } else {
                 setTodos(data.todos)
             }
         }
-    }, [data])
+    }, [data, currentPage])
 
 
-
-    if (isSearching || !totalPages || totalPages === 1) {
+    if (!totalPages || totalPages === 1) {
         return null
     }
 

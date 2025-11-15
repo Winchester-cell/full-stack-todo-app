@@ -1,27 +1,25 @@
 import useTodos from '@/hooks/query-hooks/useTodos'
+import { useProjectsPaginationStore } from '@/store/useProjectsPaginationStore'
 import { useTodoStore } from '@/store/useTodoStore'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
 export default function SearchProject() {
 
-    const [filterValue, setFilterValue] = useState('')
-    const { setTodos, setIsSearching, isSearching } = useTodoStore()
-
-    const { data } = useTodos({ queryType: 'filtering', filterValue, enableOption: Boolean(filterValue) })
-    const {data:pageData} = useTodos({queryType:'normal' , enableOption:!Boolean(filterValue)})
+    const { setTodos, setIsSearching, isSearching, filterValue, setFilterValue } = useTodoStore()
+    const { setCurrentPage } = useProjectsPaginationStore()
+    const { data } = useTodos({ filterValue })
 
     useEffect(() => {
         if (data && isSearching) {
-            setTodos(data)
-        } else if (!filterValue) {
-            setTodos(pageData?.todos)
+            setTodos(data?.todos)
         }
     }, [data])
 
     const onChangeHanlder = (e) => {
         setFilterValue(e.target.value)
         if (e.target.value.trim()) {
+            setCurrentPage(1)
             setIsSearching(true)
         } else {
             setIsSearching(false)

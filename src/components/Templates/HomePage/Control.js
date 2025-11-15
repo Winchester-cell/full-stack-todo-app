@@ -6,10 +6,11 @@ import SearchProject from './SearchProject';
 import PaginationControls from './PaginationControls';
 import useProjectsPagination from '@/hooks/useProjectPagination';
 import useTodos from '@/hooks/query-hooks/useTodos';
+import { useTodoStore } from '@/store/useTodoStore';
 
 export default function Controls() {
-
-    const {data} = useTodos({queryType:'normal' , enableOption:true})
+    const { filterValue } = useTodoStore()
+    const { data } = useTodos({ filterValue })
     // state for open/close => create project modal
     const [isOpen, setIsOpen] = useState(false)
     // pagination states  

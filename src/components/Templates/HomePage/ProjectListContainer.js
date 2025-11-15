@@ -12,8 +12,8 @@ import { IoFolder } from "react-icons/io5";
 
 export default function ProjectListContainer() {
 
-    const { todos, setTodos, isSearching, setIsSearching } = useTodoStore()
-    const {data} = useTodos({queryType:'normal' , enableOption:true})
+    const { todos, setTodos, isSearching, setIsSearching , filterValue } = useTodoStore()
+    const {data} = useTodos({filterValue})
 
     useEffect(() => {
         if (data) {

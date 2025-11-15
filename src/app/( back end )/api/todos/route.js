@@ -13,28 +13,18 @@ export async function GET(req) {
     }
 
     const { searchParams } = new URL(req.url);
-    const filter = searchParams.get("filter")
-    const page = parseInt(searchParams.get("page")) || 1;
+    const filter = searchParams.get("filter") || ''
+    const safeFilter = escapeRegex(filter)
+    let page = parseInt(searchParams.get("page")) || 1;
     const perPage = 15
-
-    if (filter) {
-        const safeFilter = escapeRegex(filter)
-        const filteredTodos = await todoModel.find({
-            title: { $regex: safeFilter, $options: "i" } 
-        });
-        return new Response(JSON.stringify(filteredTodos))
-    }
-
-    const total = await todoModel.countDocuments({ userID: user._id });
+    const total = await todoModel.countDocuments({ userID: user._id, title: { $regex: safeFilter, $options: "i" } });
     const totalPages = Math.ceil(total / perPage);
 
     if (page > totalPages && totalPages !== 0) {
-        return new Response(JSON.stringify({ error: "Page not found" }), {
-            status: 400,
-        });
+        page = 1
     }
 
-    const todos = await todoModel.find({ userID: user._id }).skip((page - 1) * perPage).limit(perPage);
+    const todos = await todoModel.find({ userID: user._id, title: { $regex: safeFilter, $options: "i" } }).skip((page - 1) * perPage).limit(perPage);
 
     return new Response(JSON.stringify({ todos: todos, totalPages: totalPages }), {
         status: 200

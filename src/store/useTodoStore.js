@@ -6,6 +6,10 @@ export const useTodoStore = create((set) => ({
 
     setTodos: (newTodos) => set({ todos: newTodos }),
 
+    filterValue: '',
+
+    setFilterValue: (newValue) => set({ filterValue: newValue }),
+
     isSearching: false,
 
     setIsSearching: (newStat) => set({ isSearching: newStat })
