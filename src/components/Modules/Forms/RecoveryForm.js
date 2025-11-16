@@ -25,7 +25,7 @@ export default function RecoveryForm({ setForm, setRecoveryEmail }) {
     }
 
     return (
-        <form onSubmit={handleSubmit(recoveryHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px]  shadow-lg rounded-xl flex flex-col justify-center items-center gap-10 py-10'>
+        <form onSubmit={handleSubmit(recoveryHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px]  shadow-lg rounded-xl flex flex-col justify-center items-center gap-7 py-10'>
 
             <div>
                 <LogoComponent size={1.5} />

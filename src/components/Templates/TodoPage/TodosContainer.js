@@ -31,13 +31,6 @@ export default function TodosContainer({ id }) {
             <EditTaskModal todoID={projectID} taskID={taskID} isOpen={isOpen} setIsOpen={setIsOpen} />
             <div className='flex flex-col gap-5 p-5 container'>
                 {
-                    data?.title &&
-                    <div className='container flex justify-between items-center text-lg ps-5 bg-[var(--colorB)] font-semibold py-3 shadow-lg rounded-xl'>
-                        <h2>{data?.title}</h2>
-                        <EditProjectTitle />
-                    </div>
-                }
-                {
                     data?.tasks?.map((task, index) => {
                         return (
                             <AnimateOnScroll key={task._id} delay={100 * index}>

@@ -8,71 +8,80 @@ import { serialize } from "cookie";
 
 export async function GET() {
 
-    await dbConnect()
+    try {
 
-    const cookieStore = await cookies()
+        await dbConnect()
 
-    const token = cookieStore.get('token')?.value
-    const refreshToken = cookieStore.get('refreshToken')?.value
+        const cookieStore = await cookies()
 
-    const tokenPayload = token ? verifyToken(token) : null
+        const token = cookieStore.get('token')?.value
+        const refreshToken = cookieStore.get('refreshToken')?.value
 
-    if (!tokenPayload) {
+        const tokenPayload = token ? verifyToken(token) : null
 
-        if (!refreshToken) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
+        if (!tokenPayload) {
+
+            if (!refreshToken) {
+                return new Response(JSON.stringify({ error: "Unauthorized" }), {
+                    status: 401,
+                });
+            }
+
+            const refreshTokenPayload = verifyRefreshToken(refreshToken)
+
+            if (!refreshTokenPayload) {
+                return new Response(JSON.stringify({ error: "Invalid token" }), {
+                    status: 403,
+                });
+            }
+
+            const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes').populate('todos')
+
+            if (!user) {
+                return new Response(JSON.stringify({ msg: 'user not found' }), { status: 404 })
+            }
+
+            const newToken = generateToken({ email: user.email })
+
+            const serializedCookie = serialize("token", newToken, {
+                httpOnly: true,
+                path: "/",
+                maxAge: 60 * 10,
+                secure: true,
+                sameSite: "lax",
             });
+
+            return new Response(JSON.stringify(user), {
+                status: 200,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Set-Cookie": serializedCookie
+
+                },
+            })
+
         }
 
-        const refreshTokenPayload = verifyRefreshToken(refreshToken)
-
-        if (!refreshTokenPayload) {
-            return new Response(JSON.stringify({ error: "Invalid token" }), {
-                status: 403,
-            });
-        }
-
-        const user = await userModel.findOne({ refreshToken: refreshToken }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes').populate('todos')
+        const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes')
 
         if (!user) {
-            return new Response(JSON.stringify({ msg: 'user not found' }), { status: 404 })
+            return new Response(JSON.stringify({ error: "User not found" }), {
+                status: 404,
+            });
         }
-
-        const newToken = generateToken({ email: user.email })
-
-        const serializedCookie = serialize("token", newToken, {
-            httpOnly: true,
-            path: "/",
-            maxAge: 60 * 10,
-            secure: true,
-            sameSite: "lax",
-        });
 
         return new Response(JSON.stringify(user), {
             status: 200,
             headers: {
                 "Content-Type": "application/json",
-                "Set-Cookie": serializedCookie
-
             },
         })
 
+    } catch (err) {
+        console.log('Error =>', err);
+        return new Response(JSON.stringify({ error: 'Server Error' }), { status: 500 })
     }
 
-    const user = await userModel.findOne({ email: tokenPayload.email }, '-password -__v -refreshToken -expTime -recoveryCode -tryTimes')
 
-    if (!user) {
-        return new Response(JSON.stringify({ error: "User not found" }), {
-            status: 404,
-        });
-    }
-
-    return new Response(JSON.stringify(user), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
 
 }

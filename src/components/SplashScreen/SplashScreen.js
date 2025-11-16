@@ -3,7 +3,7 @@ import getUser from '@/api/auth/getuser'
 import { useAuthStore } from '@/store/useAuthStore'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
-import { SiSimplenote } from 'react-icons/si'
+import { AiFillCheckCircle } from "react-icons/ai";
 
 
 export default function SplashScreen() {
@@ -34,7 +34,7 @@ export default function SplashScreen() {
     return (
         <div className='w-[100dvw] h-[100dvh] bg-[var(--colorA)] fixed top-0 left-0 z-[999999] flex items-center justify-center'>
             <div style={{ fontFamily: "var(--font-bebasBold)" }} className={`flex items-center gap-5 text-[60px] lg:text-[100px]`}>
-                <SiSimplenote /> <span>NEXT TODO</span>
+                <AiFillCheckCircle /> <span>NEXT TODO</span>
             </div>
         </div>
     )

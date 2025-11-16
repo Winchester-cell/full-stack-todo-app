@@ -43,7 +43,7 @@ export default function LoginForm({ setForm }) {
 
 
     return (
-        <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px] lg:h-[600px] shadow-lg rounded-xl flex flex-col justify-center items-center gap-10 py-10'>
+        <form onSubmit={handleSubmit(loginHandler)} className='bg-[var(--colorB)] w-[300px] lg:w-[450px] lg:h-[550px] shadow-lg rounded-xl flex flex-col justify-center items-center gap-7 py-10'>
 
             <div className='mb-5'>
                 <LogoComponent size={1.5} />

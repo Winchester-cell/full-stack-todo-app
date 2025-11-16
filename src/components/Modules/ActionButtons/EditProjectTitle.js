@@ -1,7 +1,7 @@
 import { useTheme } from 'next-themes'
 import React, { useState } from 'react'
 
-export default function EditProjectTitle() {
+export default function EditProjectTitle({top , end , setIsOpen}) {
 
     const [visible, setVisible] = useState(false)
     const { theme } = useTheme()
@@ -18,7 +18,7 @@ export default function EditProjectTitle() {
                     })
                 }
             </div>
-            <button className={`absolute ${visibleClass} ${btnColor} text-[12px] top-[-6px] end-[35px] z-50 w-[80px] h-[30px]  rounded-full duration-500 transition-all`}>
+            <button onClick={()=>setIsOpen(true)} style={{top:top , insetInlineEnd:end }} className={`absolute ${visibleClass} ${btnColor} text-[12px] z-50 w-[80px] h-[30px]  rounded-full duration-500 transition-all`}>
                 Edit
             </button>
         </div>

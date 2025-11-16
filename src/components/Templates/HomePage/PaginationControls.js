@@ -30,7 +30,7 @@ export default function PaginationControls({ totalPages, currentPage, setCurrent
     }
 
     return (
-        <div className="flex justify-center items-center gap-5 rounded-full bg-[var(--colorB)] py-3 lg:py-5 px-7 text-[12px] lg:text-[1rem] lg:px-20 shadow-lg">
+        <div className="flex justify-center items-center gap-7 rounded-full bg-[var(--colorB)] py-3 lg:py-4 px-6 text-[12px] lg:text-[14px] lg:px-16 shadow-lg">
             <button onClick={() => currentPage === 1 ? null : setCurrentPage(currentPage - 1)}><IoIosArrowBack /></button>
             <div>Page {currentPage} of {totalPages} </div>
             <button onClick={() => currentPage === totalPages ? null : setCurrentPage(currentPage + 1)}><IoIosArrowForward /></button>

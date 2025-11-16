@@ -36,7 +36,7 @@ export default function ToggleTodoStatus({ isDone, _id, }) {
                 <>
                     {
                         isDone &&
-                        <div className={`lg:block hidden text-[var(--colorHover)] ${theme !== 'dark' ? `bg-green-200` : ``} py-1 px-2 rounded-lg`}>Task Completed</div>
+                        <div className={`lg:block hidden text-[12px] text-[var(--colorHover)] ${theme !== 'dark' ? `bg-green-200` : ``} py-1 px-2 rounded-lg`}>Task Completed</div>
                     }
                     {
                         isDone ?

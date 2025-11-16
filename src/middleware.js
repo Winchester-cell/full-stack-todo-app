@@ -40,10 +40,7 @@ export async function middleware(request) {
       headers: {
         Cookie: `token=${token || ''}; refreshToken=${refreshToken || ''}`,
       },
-    });
-
-    console.log('log = ', res.status);
-
+    })
 
     if (res.status !== 200) {
       const response = NextResponse.redirect(new URL('/login', request.url));

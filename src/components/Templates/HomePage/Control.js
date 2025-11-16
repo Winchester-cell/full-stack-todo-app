@@ -22,7 +22,7 @@ export default function Controls() {
             <div className='container flex lg:flex-row flex-col lg:items-center lg:justify-between gap-3 lg:gap-5 px-5'>
                 <div className='flex items-center gap-3'>
                     {/* create project */}
-                    <button onClick={() => setIsOpen(true)} className="justify-center bg-[var(--colorB)] w-[155px] lg:w-fit py-3 lg:py-5 px-7 text-[12px] lg:text-[1rem] lg:px-20 rounded-full shadow-lg flex items-center gap-1">
+                    <button onClick={() => setIsOpen(true)} className="justify-center bg-[var(--colorB)] w-[155px] lg:w-fit py-3 lg:py-4 px-6 text-[12px] lg:text-[14px] lg:px-20 rounded-full shadow-lg flex items-center gap-1">
                         <FaPlus /> Add Project
                     </button>
                     {/* search component and search functions */}

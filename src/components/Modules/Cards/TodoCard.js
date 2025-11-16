@@ -18,18 +18,18 @@ export default function TodoCard({ index, title, isDone, _id, setTaskID, setProj
     return (
         <>
             <div className='flex bg-[var(--colorB)] w-full h-fit py-5 rounded-xl shadow-lg px-5 lg:px-10 justify-between'>
-                <div className='flex items-center gap-5 lg:gap-10 text-[14px] lg:text-[16px]'>
+                <div className='flex items-center gap-5 text-[14px] grow'>
                     <div>{index + 1}</div>
-                    <div className='w-[120px] md:w-[450px] lg:w-[500px] xl:w-[700px] overflow-hidden'>
+                    <div className='grow overflow-hidden'>
                         <div>{title}</div>
-                        <div className='text-[var(--colorTextB)] text-[10px] lg:text-[12px] mt-1'>2025/01/07 - 18:00</div>
+                        <div className='text-[var(--colorTextB)] text-[10px] mt-1'>2025/01/07 - 18:00</div>
                     </div>
                 </div>
                 <div className='flex items-center justify-center flex-col gap-3'>
-                    <div className='flex items-center gap-5 lg:gap-10'>
+                    <div className='flex items-center gap-3'>
                         <ToggleTodoStatus isDone={isDone} _id={_id} />
-                        <MdModeEdit onClick={()=>clickHandler('edit')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
-                        <MdDelete onClick={() => clickHandler('delete')} className='w-5 h-5 lg:w-7 lg:h-7 cursor-pointer hoverLink' />
+                        <MdModeEdit onClick={()=>clickHandler('edit')} className='w-5 h-5 cursor-pointer hoverLink' />
+                        <MdDelete onClick={() => clickHandler('delete')} className='w-5 h-5  cursor-pointer hoverLink' />
                     </div>
                     {
                         isDone &&
