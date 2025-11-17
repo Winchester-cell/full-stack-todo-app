@@ -20,12 +20,20 @@ const schema = mongoose.Schema({
                 isDone: {
                     type: Boolean,
                     default: false,
+                },
+                createDate: {
+                    type: { time: { type: String, required: true }, date: { type: String, required: true } },
+                    required: true
                 }
             }
         ],
         default: []
     },
-}, { timestamps: true })
+    createDate: {
+        type: { time: { type: String, required: true }, date: { type: String, required: true } },
+        required: true
+    }
+})
 
 const todoModel = mongoose.models.Todo || mongoose.model('Todo', schema)
 

@@ -1,9 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import { getDate, getTime } from '@/utils/date/getDate'
 import { MdDelete } from "react-icons/md";
 
-export default function TodoTitleCard({ title, createdAt, _id, setIsOpen, setID }) {
+export default function TodoTitleCard({ title, createDate, _id, setIsOpen, setID }) {
 
     const deleteButtonHandler = () => {
         // open confirm modal and set the target project id
@@ -16,7 +15,7 @@ export default function TodoTitleCard({ title, createdAt, _id, setIsOpen, setID 
             {/* project info */}
             <div className='flex-grow'>
                 <div className='line-clamp-1 text-[14px] font-semibold w-1/2'>{title}</div>
-                <div className='text-[var(--colorTextB)] mt-1 text-[10px]'>{`Created at : ${getDate(createdAt)} - ${getTime(createdAt)}`}</div>
+                <div className='text-[var(--colorTextB)] mt-1 text-[10px]'>{`Created at : ${createDate.date} - ${createDate.time}`}</div>
             </div>
             {/* actions */}
             <div className='flex items-center gap-2'>

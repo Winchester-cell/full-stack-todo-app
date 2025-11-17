@@ -1,11 +1,17 @@
-export function getDate(input) {
-    const datePart = input.split('T')[0];
-    return datePart.replace(/-/g, '/');
-}
+export function getCurrentDateTime() {
+  const now = new Date();
 
-export function getTime(input) {
-    const timePart = input.split('T')[1]; // "14:17:29.405+00:00"
-    const [hour, minute] = timePart.split(':'); // ["14", "17", ...]
-    return `${hour}:${minute}`;
-}
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0');
 
+  const date = `${year}/${month}/${day}`;
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+
+  const time = `${hours}:${minutes}`;
+
+  return { date, time };
+  
+}

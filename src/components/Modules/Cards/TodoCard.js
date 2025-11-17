@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
 import ToggleTodoStatus from '../ActionButtons/ToggleTodoStatus';
 
-export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen , setIsConfirmOpen }) {
+export default function TodoCard({ index, title, isDone, _id, setTaskID, setProjectID, setIsOpen , setIsConfirmOpen , createDate }) {
 
     const { id: projectID } = useParams()
     const { theme } = useTheme()
@@ -22,7 +22,7 @@ export default function TodoCard({ index, title, isDone, _id, setTaskID, setProj
                     <div>{index + 1}</div>
                     <div className='grow overflow-hidden'>
                         <div>{title}</div>
-                        <div className='text-[var(--colorTextB)] text-[10px] mt-1'>2025/01/07 - 18:00</div>
+                        <div className='text-[var(--colorTextB)] text-[10px] mt-1'>{createDate.date} - {createDate.time}</div>
                     </div>
                 </div>
                 <div className='flex items-center justify-center flex-col gap-3'>

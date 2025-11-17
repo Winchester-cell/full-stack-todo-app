@@ -33,7 +33,7 @@ export default function EditTodoTitleModal({ isOpen, setIsOpen, todoID }) {
                         <TextInput register={register} registerKey={'newTitle'} place={'New project title ...'} />
                     </div>
                     <div className='w-full flex justify-center mt-5'>
-                        <button disabled={isLoading} type='submit' className='bg-[var(--colorA)] w-[150px] h-10 flex items-center justify-center rounded-full border-2 border-[var(--colTextA)]'>{isLoading ? <LoaderDot size={35} color='var(--colorText)' /> : `Edit Project Title`}</button>
+                        <button disabled={isLoading} type='submit' className='bg-[var(--colorA)] w-[150px] h-10 flex items-center justify-center rounded-full border-2 border-[var(--colTextA)]'>{isLoading ? <LoaderDot size={35} color='var(--colorText)' /> : `Edit Project`}</button>
                     </div>
                 </form>
             </div>

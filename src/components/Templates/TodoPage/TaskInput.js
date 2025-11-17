@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import EditProjectTitle from "@/components/Modules/ActionButtons/EditProjectTitle";
 import { getTodo } from "@/api/todos/getTodo";
 import EditTodoTitleModal from "@/components/Modules/Modals/EditTodoTitleModal";
+import { getCurrentDateTime } from "@/utils/date/getDate";
 
 export default function TaskInput({ id }) {
 
@@ -20,13 +21,14 @@ export default function TaskInput({ id }) {
     const { register, handleSubmit, reset } = useForm()
 
     const addTask = async (data) => {
-        const todo = { title: data.title, isDone: false }
+        const dateInfo = getCurrentDateTime()
+        const todo = { title: data.title, isDone: false, createDate:dateInfo }
         await patchTodo(id, todo)
         await queryClient.invalidateQueries(['todo'])
         reset()
     }
 
-    const [isOpen , setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
         <>
@@ -46,7 +48,7 @@ export default function TaskInput({ id }) {
                     <button onClick={() => reset()} type="button" className='bg-[var(--colorB)] rounded-full shadow-lg p-4 lg:p-5 text-[16px]'><BsFillEraserFill /></button>
                 </form>
             </div>
-            <EditTodoTitleModal isOpen={isOpen} setIsOpen={setIsOpen} todoID={id}  />
+            <EditTodoTitleModal isOpen={isOpen} setIsOpen={setIsOpen} todoID={id} />
         </>
     )
 }

@@ -6,6 +6,7 @@ import useAddProject from '@/hooks/query-hooks/useAddProject';
 import LoaderDot from '../Loaders/LoaderDot';
 import useModalSubmitHandler from '@/hooks/useModalSubmitHandler';
 import ModalBase from './ModalBase';
+import { getCurrentDateTime } from '@/utils/date/getDate';
 
 export default function CreateTodoModal({ isOpen, setIsOpen }) {
 
@@ -13,13 +14,13 @@ export default function CreateTodoModal({ isOpen, setIsOpen }) {
     const { user } = useAuthStore()
     const addProjectMutation = useAddProject()
 
-   // Custom hook to handle common loading, submission, and toast logic
+    // Custom hook to handle common loading, submission, and toast logic
     const { handlerFunction, isLoading } = useModalSubmitHandler(addProjectMutation, reset, setIsOpen)
 
     const submitHandler = async (data) => {
-
+        const dateInfo = getCurrentDateTime()
         const title = data.title;
-        const todo = { userID: user._id, title, tasks: [] };
+        const todo = { userID: user._id, title, tasks: [], createDate: dateInfo };
 
         await handlerFunction(todo)
 
