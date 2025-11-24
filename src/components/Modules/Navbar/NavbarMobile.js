@@ -1,6 +1,6 @@
 'use client'
 import { navbarContent } from '@/content/appContent'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavbarLinks from './NavbarLinks'
 import useNavbarStore from '@/store/useNavbarStore'
 import Avatar from '../User/Avatar'
@@ -8,11 +8,17 @@ import { useAuthStore } from '@/store/useAuthStore'
 import ThemeToggleButton from './ThemeToggleButton'
 import LoginLogout from '../User/LoginLogout'
 import EnClockMobile from '../Clock/EnClockMobile'
+import { usePathname } from 'next/navigation'
 
 export default function NavbarMobile({ isLoading }) {
 
     const { isOpen, toggleNavbar } = useNavbarStore()
     const { isLoggedIn, user } = useAuthStore()
+    const pathname = usePathname()
+    
+    useEffect(()=>{
+        toggleNavbar()
+    },[pathname])
 
     return (
         <>

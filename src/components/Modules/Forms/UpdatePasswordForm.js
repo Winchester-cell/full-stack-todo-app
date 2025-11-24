@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LogoComponent from '../Logo/Logo'
 import { useForm } from 'react-hook-form'
 import TextInput from '../Inputs/TextInput'
@@ -12,13 +12,18 @@ export default function UpdatePasswordForm({ recoveryEmail, setForm }) {
 
     const { register, handleSubmit } = useForm()
     const { showToast } = useToast()
+    const [isLoading, setIsLoading] = useState(false)
 
     const updatePasswordHandler = async (data) => {
+        if (isLoading) return
+        setIsLoading(true)
         const updateInfo = await updatePassword(recoveryEmail, data.password, data.code)
         if (updateInfo.isOk) {
+            setIsLoading(false)
             setForm('login')
             showToast(updateInfo.result)
         } else {
+            setIsLoading(false)
             showToast(updateInfo.result, 'error')
         }
     }
@@ -34,7 +39,7 @@ export default function UpdatePasswordForm({ recoveryEmail, setForm }) {
             <PasswordInput place={'New password ...'} registerKey={'password'} register={register} />
 
             <div className='text-[14px] lg:text-[1rem]'>
-                <SubmitInput buttonText={'Update Password'} />
+                <SubmitInput isLoading={isLoading} buttonText={'Update Password'} />
             </div>
 
             <button onClick={() => setForm('recovery')} className='flex items-center gap-2'>

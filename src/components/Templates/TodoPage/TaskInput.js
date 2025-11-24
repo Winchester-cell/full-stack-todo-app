@@ -38,7 +38,7 @@ export default function TaskInput({ id }) {
                     <div className='container mb-5 flex justify-between items-center text-lg ps-10 bg-[var(--colorB)] font-semibold py-3 shadow-lg rounded-xl'>
                         <h2>{data?.title}</h2>
                         <div className="px-5">
-                            <EditProjectTitle setIsOpen={setIsOpen} top={-6} end={320} />
+                            <EditProjectTitle setIsOpen={setIsOpen} top={-6} end={15} />
                         </div>
                     </div>
                 }

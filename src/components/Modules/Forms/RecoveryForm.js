@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LogoComponent from '../Logo/Logo'
 import { useForm } from 'react-hook-form'
 import TextInput from '../Inputs/TextInput'
@@ -12,14 +12,19 @@ export default function RecoveryForm({ setForm, setRecoveryEmail }) {
 
     const { register, handleSubmit } = useForm()
     const { showToast } = useToast()
+    const [isLoading, setIsLoading] = useState(false)
 
     const recoveryHandler = async (data) => {
+        if (isLoading) return
+        setIsLoading(true)
         const sendInfo = await sendRecoveryCode(data.email)
         if (sendInfo.isOk) {
+            setIsLoading(false)
             setForm('updatepassword')
             setRecoveryEmail(data.email)
             showToast(sendInfo.result)
         } else {
+            setIsLoading(false)
             showToast(sendInfo.result, 'error')
         }
     }
@@ -34,10 +39,10 @@ export default function RecoveryForm({ setForm, setRecoveryEmail }) {
             <TextInput place={'Email ...'} registerKey={'email'} register={register} />
 
             <div className='text-[14px] lg:text-[1rem]'>
-                <SubmitInput buttonText={'Recover Password'} />
+                <SubmitInput isLoading={isLoading} buttonText={'Recover Password'} />
             </div>
 
-            <button onClick={()=>setForm('login')} className='flex items-center gap-2'>
+            <button onClick={() => setForm('login')} className='flex items-center gap-2'>
                 <IoIosArrowBack />
                 Back
             </button>
