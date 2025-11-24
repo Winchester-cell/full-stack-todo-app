@@ -23,17 +23,18 @@ export default function CropImageModal() {
         if (selectedFile) {
             const reader = new FileReader()
             reader.onload = () => {
-                setImageUrl(reader.result) // Base64 میده
+                setImageUrl(reader.result)
             }
-            reader.readAsDataURL(selectedFile) // همیشه جواب میده حتی روی Android
+            reader.readAsDataURL(selectedFile)
         }
     }, [selectedFile])
 
     const onCropDone = async () => {
         try {
             const croppedBlob = await getCroppedImg(imageUrl, croppedAreaPixels)
-            const url = await uploadImage(croppedBlob)
-            const res = await updateAvatar(url)
+            const formData = new FormData()
+            formData.append("avatar", croppedBlob, "avatar.jpg")
+            const res = await updateAvatar(formData)
             if (res.isOk) {
                 queryClient.invalidateQueries({ queryKey: ['user'] });
                 setTimeout(() => {

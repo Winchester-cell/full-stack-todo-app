@@ -22,11 +22,11 @@ export default function getCroppedImg(imageSrc, pixelCrop) {
       )
 
       canvas.toBlob((blob) => {
-        if (!blob) return reject('خطا در ساختن Blob')
+        if (!blob) return reject('Blob Failed')
         resolve(blob)
       }, 'image/jpeg')
     }
 
-    image.onerror = () => reject('بارگذاری تصویر ناموفق بود')
+    image.onerror = () => reject('Failed')
   })
 }

@@ -7,6 +7,7 @@ import CropImageModal from '@/components/Modules/Modals/CropModal';
 import { useUploadImageStore } from '@/store/useUploadImageStore';
 import updateAvatar from '@/api/user/updateAvatar';
 import { useQueryClient } from '@tanstack/react-query';
+import deleteAvatar from '@/api/user/deleteAvatar';
 
 export default function ProfileSettings() {
 
@@ -15,7 +16,7 @@ export default function ProfileSettings() {
   const queryClient = useQueryClient();
 
   const removeAvatarHandler = async () => {
-    const res = await updateAvatar('')
+    const res = await deleteAvatar()
     if (res.isOk) {
       queryClient.invalidateQueries({ queryKey: ['user'] });
       setTimeout(() => {
@@ -36,7 +37,7 @@ export default function ProfileSettings() {
         <CropImageModal />
       }
 
-      
+
 
       {
         user &&
