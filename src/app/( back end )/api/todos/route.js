@@ -1,17 +1,15 @@
 import todoModel from "@/models/todo";
-import { checkUser } from "@/utils/checkUser";
+import { checkUser } from "@/utils/auth/checkUser";
 import { escapeRegex } from "@/utils/others/escapeRegex";
 
 export async function GET(req) {
 
     try {
 
-        const user = await checkUser()
+        const { user, response } = await checkUser()
 
         if (!user) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
+            return response
         }
 
         const { searchParams } = new URL(req.url);
@@ -28,16 +26,11 @@ export async function GET(req) {
 
         const todos = await todoModel.find({ userID: user._id, title: { $regex: safeFilter, $options: "i" } }).skip((page - 1) * perPage).limit(perPage);
 
-        return new Response(JSON.stringify({ todos: todos, totalPages: totalPages }), {
-            status: 200
-        })
-
+        return Response.json({ todos: todos, totalPages: totalPages }, { status: 200 })
 
     } catch (err) {
         console.log('Error =>', err);
-        return new Response(JSON.stringify({ err: 'Server Error' }), {
-            status: 500
-        })
+        return Response.json({ err: 'Server Error' }, { status: 500 })
     }
 
 }
@@ -46,57 +39,50 @@ export async function POST(req) {
 
     try {
         const todo = await req.json()
-        const user = await checkUser()
+        const { user, response } = await checkUser()
 
         if (!user) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
+            return response
         }
 
         await todoModel.create(todo)
 
-        return new Response(JSON.stringify({ message: 'Done' }), {
-            status: 201
-        })
+        return Response.json({ message: 'Done' }, { status: 201 })
+
     } catch (err) {
         console.log('Error =>', err);
-        return new Response(JSON.stringify({ err: 'Server Error' }), {
-            status: 500
-        })
+        return Response.json({ err: 'Server Error' }, { status: 500 })
     }
 
 }
 
 export async function PATCH(req) {
+
     try {
 
         const { todoID, newTitle } = await req.json()
-        const user = await checkUser()
+        const { user, response } = await checkUser()
 
         if (!user) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
+            return response
         }
 
         const targetTodo = await todoModel.findOne({ _id: todoID, userID: user._id })
 
         if (!targetTodo) {
-            return new Response(JSON.stringify({ error: "nothing found" }), {
-                status: 404,
-            });
+            return Response.json({ error: "not found" }, { status: 404 });
         }
 
         targetTodo.title = newTitle
         await targetTodo.save()
 
-        return new Response(JSON.stringify({ msg: 'Title updated successfully' }), { status: 200 })
+        return Response.json({ msg: 'Title updated successfully' }, { status: 200 })
 
     } catch (err) {
+
         console.log('Error =>', err);
-        return new Response(JSON.stringify({ err: 'Server Error' }), {
-            status: 500
-        })
+        return Response.json({ err: 'Server Error' }, { status: 500 })
+
     }
+
 }

@@ -2,29 +2,22 @@
 import AnimateOnScroll from '@/components/AnimateOnScrollWrapper/AnimateOnScroll';
 import TodoTitleCard from '@/components/Modules/Cards/TodoTitleCard'
 import ConfirmModal from '@/components/Modules/Modals/ConfrimModal';
+import EditTodoTitleModal from '@/components/Modules/Modals/EditTodoTitleModal';
 import { useToast } from '@/context/ToastContext';
 import useDeleteProject from '@/hooks/query-hooks/useDeleteProject';
-import useTodos from '@/hooks/query-hooks/useTodos';
 import useProjectsPagination from '@/hooks/useProjectPagination';
 import { useTodoStore } from '@/store/useTodoStore';
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { FaSadTear } from 'react-icons/fa';
 import { IoFolder } from "react-icons/io5";
 
 export default function ProjectListContainer() {
 
-    const { todos, setTodos, isSearching, setIsSearching , filterValue } = useTodoStore()
-    const {data} = useTodos({filterValue})
-
-    useEffect(() => {
-        if (data) {
-            setTodos(data.todos)
-        }
-    }, [data])
-
+    const { todos, setTodos, isSearching, setIsSearching } = useTodoStore()
     // state for selected id ( when user clicks on delete button of a project card)
     const [id, setID] = useState()
-
     const [isOpen, setIsOpen] = useState(false)
+    const [isEditOpen, setIsEditOpen] = useState(false)
     const deleteProjectMutation = useDeleteProject()
     const { showToast } = useToast()
     const pageInfo = useProjectsPagination()
@@ -58,11 +51,25 @@ export default function ProjectListContainer() {
             </div>
         )
     }
+    // message when no result
+    if (todos?.length === 0 && isSearching) {
+        return (
+            <div className='container flex-grow p-5'>
+                <div className='border-2 border-dashed rounded-2xl text-[var(--colorTextB)] border-[var(--colorTextB)] h-full flex items-center justify-center'>
+                    <div className='flex flex-col items-center'>
+                        <FaSadTear className='w-16 h-16' />
+                        <div>No result</div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
     // container displaying created projects
     return (
         <>
             {/* modal for confirm delete */}
             <ConfirmModal onConfirm={deleteProject} isOpen={isOpen} setIsOpen={setIsOpen} message={`Delete project ?`} />
+            <EditTodoTitleModal isOpen={isEditOpen} setIsOpen={setIsEditOpen} todoID={id} />
             {/* cards container */}
             <div className='container px-5 py-5'>
                 <div className='grid grid-cols-1 xl:grid-cols-3 gap-5'>
@@ -70,7 +77,7 @@ export default function ProjectListContainer() {
                         todos?.map((todo, index) => {
                             return (
                                 <AnimateOnScroll key={todo._id} delay={100 * index}>
-                                    <TodoTitleCard setID={setID} setIsOpen={setIsOpen} {...todo} />
+                                    <TodoTitleCard setID={setID} setIsEditOpen={setIsEditOpen} setIsOpen={setIsOpen} {...todo} />
                                 </AnimateOnScroll>
                             )
                         })

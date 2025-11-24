@@ -22,7 +22,7 @@ export default function TaskInput({ id }) {
 
     const addTask = async (data) => {
         const dateInfo = getCurrentDateTime()
-        const todo = { title: data.title, isDone: false, createDate:dateInfo }
+        const todo = { title: data.title, isDone: false, createDate: dateInfo }
         await patchTodo(id, todo)
         await queryClient.invalidateQueries(['todo'])
         reset()
@@ -37,7 +37,9 @@ export default function TaskInput({ id }) {
                     data?.title &&
                     <div className='container mb-5 flex justify-between items-center text-lg ps-10 bg-[var(--colorB)] font-semibold py-3 shadow-lg rounded-xl'>
                         <h2>{data?.title}</h2>
-                        <EditProjectTitle setIsOpen={setIsOpen} top={-6} end={35} />
+                        <div className="px-5">
+                            <EditProjectTitle setIsOpen={setIsOpen} top={-6} end={320} />
+                        </div>
                     </div>
                 }
                 <form onSubmit={handleSubmit(addTask)} className='flex items-center gap-3'>

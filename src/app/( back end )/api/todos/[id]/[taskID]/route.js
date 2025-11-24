@@ -1,60 +1,47 @@
 import todoModel from "@/models/todo";
-import { checkUser } from "@/utils/checkUser";
-import dbConnect from "@/utils/database/dbConnect";
+import { checkUser } from "@/utils/auth/checkUser";
 
-export async function DELETE(request, { params }) {
+export async function DELETE(_, { params }) {
 
 
     try {
 
-        const user = await checkUser()
+        const { user, response } = await checkUser()
 
         if (!user) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
+            return response
         }
 
         const { id, taskID } = await params
-
-        await dbConnect()
 
         await todoModel.updateOne(
             { _id: id, userID: user._id },
             { $pull: { tasks: { _id: taskID } } }
         )
 
-        return new Response(JSON.stringify({ message: 'task deleted successfully' }), {
-            status: 200
-        });
+        return Response.json({ message: 'task deleted successfully' }, { status: 200 })
 
 
     } catch (err) {
         console.log('Error =>', err);
-        return new Response(JSON.stringify({ message: 'Server Error' }), {
-            status: 500
-        })
+        return Response.json({ error: 'Server Error' }, { status: 500 })
     }
 
 }
 
-
 export async function PATCH(request, { params }) {
+
     try {
 
         const { type, body } = await request.json()
 
-        const user = await checkUser()
+        const { user, response } = await checkUser()
 
         if (!user) {
-            return new Response(JSON.stringify({ error: "Unauthorized" }), {
-                status: 401,
-            });
+            return response
         }
 
         const { id, taskID } = await params
-
-        await dbConnect()
 
         const todo = await todoModel.findOne({ _id: id, userID: user._id })
         const targetTask = todo.tasks.find(task => String(task._id) === String(taskID))
@@ -65,9 +52,7 @@ export async function PATCH(request, { params }) {
 
             todo.save()
 
-            return new Response(JSON.stringify({ message: 'Task status updated successfully' }), {
-                status: 200
-            });
+            return Response.json({ message: 'Task status updated successfully' }, { status: 200 })
 
         }
 
@@ -75,15 +60,12 @@ export async function PATCH(request, { params }) {
 
         todo.save()
 
-        return new Response(JSON.stringify({ message: 'Task title updated successfully' }), {
-            status: 200
-        });
+        return Response.json({ message: 'Task title updated successfully' }, { status: 200 })
 
 
     } catch (err) {
         console.log('Error =>', err);
-        return new Response(JSON.stringify({ message: 'Server Error' }), {
-            status: 500
-        })
+        return Response.json({ error: 'Server Error' }, { status: 500 })
     }
+
 }

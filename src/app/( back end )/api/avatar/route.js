@@ -1,34 +1,27 @@
-import { checkUser } from "@/utils/checkUser";
-import dbConnect from "@/utils/database/dbConnect";
+import { checkUser } from "@/utils/auth/checkUser";
 
 export async function PATCH(req) {
 
-    await dbConnect()
+    try {
 
-    const {avatar} = await req.json()
+        const { avatar } = await req.json()
 
-    const user = await checkUser()
+        const { user, response } = await checkUser()
 
-    if (!user) {
-        return new Response(JSON.stringify({ text: 'user not found' }), {
-            status: 404,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
+        if (!user) {
+            return response
+        }
 
+        user.avatar = avatar;
+
+        await user.save();
+
+        return Response.json({ text: 'avatar updated succesfully' }, { status: 200 })
+
+    } catch (err) {
+        console.log('Error =>', err);
+        return Response.json({ err: 'Server Error' }, { status: 500 })
     }
 
-    user.avatar = avatar;
-
-    await user.save();
-
-
-    return new Response(JSON.stringify({ text: 'avatar updated succesfully' }), {
-        status: 200,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
 
 }

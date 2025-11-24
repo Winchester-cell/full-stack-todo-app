@@ -49,7 +49,7 @@ export async function POST(req) {
     } catch (err) {
 
         console.error(err);
-        return Response.json({ success: false, error: err.message });
+        return Response.json({ success: false, error: 'Server error' });
 
     }
 }

@@ -9,23 +9,12 @@ import { AiFillCheckCircle } from "react-icons/ai";
 export default function SplashScreen() {
 
     const [visible, setVisible] = useState(true)
-    const { setIsLoggedIn, setUser } = useAuthStore()
-
-    const { data } = useQuery({
-        queryKey: ['user'],
-        queryFn: getUser
-    })
 
     useEffect(() => {
         setTimeout(() => {
             setVisible(false)
         }, 2000)
     }, [])
-
-    useEffect(() => {
-        setIsLoggedIn(!!data)
-        setUser(data)
-    }, [data])
 
     if (!visible) {
         return null
