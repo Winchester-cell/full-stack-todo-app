@@ -19,7 +19,7 @@ export default function TodoTitleCard({ title, createDate, _id, setIsOpen, setID
                 <div className='text-[var(--colorTextB)] mt-1 text-[10px]'>{`Created at : ${createDate.date} - ${createDate.time}`}</div>
             </div>
             {/* actions */}
-            <div className='flex items-center gap-2 pe-5'>
+            <div className='flex items-center gap-3 pe-5'>
                 <Link className='bg-[var(--colorA)] text-[12px] px-5 py-2 lg:px-6 hoverLink rounded-full' href={`/todos/${_id}`}>View</Link>
                 <MdDelete onClick={() => deleteButtonHandler()} className='cursor-pointer w-5  lg:w-6 h-5  lg:h-6 hoverLink' />
                 <div onClick={() => setID(_id)}>
