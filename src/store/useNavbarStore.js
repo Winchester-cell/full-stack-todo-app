@@ -6,6 +6,8 @@ const useNavbarStore = create((set) => ({
 
     toggleNavbar: () => set((state) => ({ isOpen: !state.isOpen })),
 
+    setIsOpen: (status) => set({ isOpen: status }),
+
 }))
 
 export default useNavbarStore

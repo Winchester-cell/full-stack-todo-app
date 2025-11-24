@@ -12,12 +12,12 @@ import { usePathname } from 'next/navigation'
 
 export default function NavbarMobile({ isLoading }) {
 
-    const { isOpen, toggleNavbar } = useNavbarStore()
+    const { isOpen, toggleNavbar , sesetIsOpen } = useNavbarStore()
     const { isLoggedIn, user } = useAuthStore()
     const pathname = usePathname()
     
     useEffect(()=>{
-        toggleNavbar()
+        sesetIsOpen(false)
     },[pathname])
 
     return (
