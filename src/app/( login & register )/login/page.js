@@ -3,16 +3,21 @@ import logout from "@/api/auth/logout"
 import LoginForm from "@/components/Modules/Forms/LoginForm"
 import RecoveryForm from "@/components/Modules/Forms/RecoveryForm"
 import UpdatePasswordForm from "@/components/Modules/Forms/UpdatePasswordForm"
+import { useTodoStore } from "@/store/useTodoStore"
 import { useEffect, useState } from "react"
 
 export default function LoginPage() {
 
   const [form, setForm] = useState('login')
   const [recoveryEmail, setRecoveryEmail] = useState('')
+  const { setTodos } = useTodoStore()
 
-  useEffect(async () => {
-    setTodos([])
-    await logout()
+  useEffect(() => {
+    const mounthandler = async () => {
+      setTodos([])
+      await logout()
+    }
+    mounthandler()
   }, [])
 
   return (

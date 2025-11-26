@@ -45,9 +45,12 @@ export default function RegisterPage() {
         }
     }
 
-    useEffect(async () => {
-        setTodos([])
-        await logout()
+    useEffect(() => {
+        const mounthandler = async () => {
+            setTodos([])
+            await logout()
+        }
+        mounthandler()
     }, [])
 
     return (
