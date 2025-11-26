@@ -8,10 +8,13 @@ import updateAvatar from '@/api/user/updateAvatar';
 import { uploadImage } from '@/utils/others/uploadcare';
 import { useToast } from '@/context/ToastContext';
 import { useQueryClient } from '@tanstack/react-query';
+import deleteAvatar from '@/api/user/deleteAvatar';
+import LoaderDot from '../Loaders/LoaderDot';
 
 export default function CropImageModal() {
 
     const { setShowCropper, setSelectedFile, selectedFile } = useUploadImageStore()
+    const [isLoading, setIsLoading] = useState(false)
     const { showToast } = useToast()
     const [imageUrl, setImageUrl] = useState(null)
     const [crop, setCrop] = useState({ x: 0, y: 0 })
@@ -30,23 +33,29 @@ export default function CropImageModal() {
     }, [selectedFile])
 
     const onCropDone = async () => {
+        if (isLoading) return
         try {
+            setIsLoading(true)
             const croppedBlob = await getCroppedImg(imageUrl, croppedAreaPixels)
             const formData = new FormData()
             formData.append("avatar", croppedBlob, "avatar.jpg")
+            await deleteAvatar()
             const res = await updateAvatar(formData)
             if (res.isOk) {
                 queryClient.invalidateQueries({ queryKey: ['user'] });
                 setTimeout(() => {
+                    setIsLoading(false)
                     showToast(res.result, 'success')
                 }, 2000);
             } else {
                 setInterval(() => {
+                    setIsLoading(false)
                     showToast(res.result, 'error')
                 }, 2000);
             }
             setShowCropper(false)
         } catch (err) {
+            setIsLoading(false)
             console.error('Error cropping image:', err)
         }
     }
@@ -91,9 +100,9 @@ export default function CropImageModal() {
                     <div className="absolute bottom-4 left-4 flex gap-2">
                         <button
                             onClick={onCropDone}
-                            className="bg-[var(--colorA)] text-[var(--colorText)] px-5 py-2 rounded-full"
+                            className="bg-[var(--colorA)] text-[var(--colorText)] px-5 h-10 rounded-full"
                         >
-                            Save
+                            {isLoading ? <LoaderDot size={35} color='var(--colorText)' /> : 'Save'}
                         </button>
                     </div>
 

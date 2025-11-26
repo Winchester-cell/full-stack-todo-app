@@ -5,7 +5,7 @@ const sendRecoveryCode = async (email) => {
         const res = await api.post('/auth/recovery', { userEmail: email })
 
         if (res.status === 201) {
-            return { result: 'We’ve sent a recovery code to your email', isOk: true }
+            return { result: 'We’ve sent a security code to your email', isOk: true }
         }
 
         return { result: 'Something went wrong, try later', isOk: false }

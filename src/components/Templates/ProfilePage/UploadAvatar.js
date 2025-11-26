@@ -16,11 +16,11 @@ export default function UploadAvatar() {
     }
 
     return (
-        <>
+        <div>
             <input className='hidden' id='upload_Avatar' type="file" accept="image/*" ref={fileInputRef} onChange={handleChange} />
-            <label htmlFor="upload_Avatar" className='bg-[var(--colorA)] px-5 py-2 rounded-full cursor-pointer text-[12px]'>
+            <label htmlFor="upload_Avatar" className='bg-[var(--colorA)] w-[150px] px-5 py-3 rounded-full cursor-pointer text-[12px] block text-center'>
                 Upload Avatar
             </label>
-        </>
+        </div>
     )
 }
