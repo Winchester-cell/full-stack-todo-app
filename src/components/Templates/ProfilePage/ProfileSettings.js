@@ -93,9 +93,14 @@ export default function ProfileSettings() {
         }
 
       </div>
-      <UpdatePasswordModal recoveryEmail={user.email} isOpen={updatePassowrdOpen} setIsOpen={setUpdatePasswordOpen} />
-      <EditUserNameModal isOpen={isOpen} setIsOpen={setIsOpen} />
-      <ConfirmModal isOpen={confirmOpen} setIsOpen={setConfirmOpen} message={'Delete current avatar ?'} onConfirm={removeAvatarHandler} />
+      {
+        user &&
+        <>
+          <UpdatePasswordModal recoveryEmail={user.email} isOpen={updatePassowrdOpen} setIsOpen={setUpdatePasswordOpen} />
+          <EditUserNameModal isOpen={isOpen} setIsOpen={setIsOpen} />
+          <ConfirmModal isOpen={confirmOpen} setIsOpen={setConfirmOpen} message={'Delete current avatar ?'} onConfirm={removeAvatarHandler} />
+        </>
+      }
     </>
   )
 }

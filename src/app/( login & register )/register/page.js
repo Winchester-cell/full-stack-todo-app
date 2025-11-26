@@ -1,6 +1,7 @@
 'use client'
 
 import getUser from '@/api/auth/getuser';
+import logout from '@/api/auth/logout';
 import registerUser from '@/api/auth/register';
 import PasswordInput from '@/components/Modules/Inputs/PasswordInput';
 import SubmitInput from '@/components/Modules/Inputs/SubmitInput';
@@ -11,7 +12,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useTodoStore } from '@/store/useTodoStore';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 
 
@@ -43,6 +44,11 @@ export default function RegisterPage() {
             setIsLoading(false)
         }
     }
+
+    useEffect(async () => {
+        setTodos([])
+        await logout()
+    }, [])
 
     return (
         <div className='w-full h-[100dvh] flex items-center justify-center'>
