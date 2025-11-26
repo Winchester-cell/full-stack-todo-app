@@ -27,7 +27,7 @@ export default function EditTodoTitleModal({ isOpen, setIsOpen, todoID }) {
     return (
         <ModalBase isOpen={isOpen} setIsOpen={setIsOpen}>
             <div className='rounded-xl bg-[var(--colorB)] w-[300px] lg:w-[500px] h-fit py-2'>
-                <h2 className='w-full text-center mt-5'>Create New Todo</h2>
+                <h2 className='w-full text-center mt-5'>Edit Project</h2>
                 <form onSubmit={handleSubmit(submitHandler)} className='p-5'>
                     <div className='w-full flex justify-center'>
                         <TextInput register={register} registerKey={'newTitle'} place={'New project title ...'} />
