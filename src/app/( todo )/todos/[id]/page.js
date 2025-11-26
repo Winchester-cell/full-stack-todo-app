@@ -9,9 +9,9 @@ export default function TodoPage() {
     const params = useParams()
 
     return (
-        <>
+        <div className="h-[calc(100dvh-100px)] flex flex-col overflow-x-hidden">
             <TaskInput {...params} />
             <TodosContainer {...params} />
-        </>
+        </div>
     )
 }

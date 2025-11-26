@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdModeEdit } from "react-icons/md";
 import EditProjectTitle from '../ActionButtons/EditProjectTitle';
 
 export default function TodoTitleCard({ title, createDate, _id, setIsOpen, setID, setIsEditOpen }) {
@@ -21,10 +21,12 @@ export default function TodoTitleCard({ title, createDate, _id, setIsOpen, setID
             {/* actions */}
             <div className='flex items-center gap-3 pe-5'>
                 <Link className='bg-[var(--colorA)] text-[12px] px-5 py-2 lg:px-6 hoverLink rounded-full' href={`/todos/${_id}`}>View</Link>
+                <MdModeEdit className='cursor-pointer w-4  lg:w-5 h-4  lg:h-5 hoverLink' onClick={() => {
+                    setID(_id)
+                    setIsEditOpen(true)
+                }} />
                 <MdDelete onClick={() => deleteButtonHandler()} className='cursor-pointer w-5  lg:w-6 h-5  lg:h-6 hoverLink' />
-                <div onClick={() => setID(_id)}>
-                    <EditProjectTitle setIsOpen={setIsEditOpen} top={-35} end={-37} />
-                </div>
+
             </div>
         </div>
     )

@@ -9,6 +9,5 @@ export default function useTodos({ filterValue }) {
     return useQuery({
         queryKey: ['todos', currentPage, filterValue],
         queryFn: () => getTodos(currentPage, filterValue),
-        staleTime: 1000 * 60 * 5
     })
 }
