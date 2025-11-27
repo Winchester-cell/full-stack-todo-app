@@ -7,7 +7,7 @@
 
 ## Demo
 
-Live demo: [ https://full-stack-todo-app-eta.vercel.app/ ]
+Live demo: [ https://next-todo-win.netlify.app/ ]
 
 ---
 
